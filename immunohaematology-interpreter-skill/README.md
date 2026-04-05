@@ -1,7 +1,7 @@
 # Transfusion Medicine & Immunohaematology Interpreter — README
 
 **Skill name:** `transfusion-medicine-interpreter`
-**Developed by:** Echukwuka | EEHLSS / MedLabAI-LIS
+**Developed by:** Echukwuka
 **Version:** 1.0 | **April 2026**
 **Standards:** ISBT · AABB Technical Manual 20th Ed · BCSH/BSH · RCPath · ISO 15189:2022 · CBAHI · CAP Transfusion Medicine Checklist
 
@@ -55,48 +55,40 @@ The skill applies a systematic 11-phase framework to produce a structured report
 
 ## How to Install
 
-### Option A — Claude.ai Web or Mobile (Easiest — for individuals)
+### Option A — Clone the repository and run in Claude Code (recommended)
 
-This is the simplest route for a colleague who uses Claude.ai and wants to start immediately.
-
-**Step 1:** Sign in to [claude.ai](https://claude.ai) in your browser or the Claude mobile app.
-
-**Step 2:** Go to **Settings → Custom Instructions** (the equivalent of a system prompt or persistent instruction field — the exact name may vary slightly by interface version).
-
-**Step 3:** Open the `SKILL.md` file from this folder in any text editor — Notepad, VS Code, TextEdit, or even Microsoft Word (view as plain text).
-
-**Step 4:** Copy the **entire contents** of the file and paste into the Custom Instructions field.
-
-**Step 5:** Save. The skill is now active in your Claude.ai account. Every new conversation will have this skill applied automatically. Upload a panel image and ask for interpretation.
-
-> **Character limit note:** The YAML description field at the top of SKILL.md has been specifically trimmed to 923 characters to stay under Claude's 1024-character field limit. Do not expand the description block — all the clinical content is in the body of the file, not the header.
-
----
-
-### Option B — EEHLSS EVO X2 / Local Skills Folder
-
-For the EEHLSS local Claude environment with a mounted `/mnt/skills/` directory:
-
-**Step 1:** Copy the entire skill folder to the user skills directory:
+1. Clone this repository locally:
 
 ```bash
-cp -r transfusion-medicine-interpreter/ /mnt/skills/user/transfusion-medicine-interpreter/
+git clone https://github.com/eehlss/lab-interpreter-skills.git
+cd lab-interpreter-skills
 ```
 
-**Step 2:** Verify the files are in place:
+2. Add this skill folder to Claude Code project skills:
 
 ```bash
-ls /mnt/skills/user/transfusion-medicine-interpreter/
-# Should return: SKILL.md  README.md  RESEARCH_DEEP_DIVE.md
+mkdir -p .claude/skills
+cp -R immunohaematology-interpreter-skill .claude/skills/
 ```
 
-**Step 3:** Claude will auto-detect the skill from the `<available_skills>` block and trigger it automatically when you upload a panel image or use any of the trigger phrases listed below.
+3. Open Claude Code in the repository and prompt with your panel image and patient context.
 
-No restart or reloading needed — skills are read at the start of each conversation session.
+### Option B — Install for all projects on your local PC
 
----
+```bash
+mkdir -p ~/.claude/skills
+cp -R immunohaematology-interpreter-skill ~/.claude/skills/
+```
 
-### Option C — Claude API Integration (Developers / MedLabAI-LIS)
+### Option C — Claude.ai Web or Mobile
+
+1. Sign in to Claude.ai.
+2. Go to Settings and then Custom Instructions.
+3. Open SKILL.md from this folder.
+4. Copy the full SKILL.md content into Custom Instructions.
+5. Save and start a new chat.
+
+### Option D — Claude API Integration (Developers)
 
 For embedding this skill into a custom application or laboratory information system via the Claude API:
 
@@ -159,7 +151,7 @@ print(response.content[0].text)
 
 ---
 
-### Option D — n8n Workflow Automation (EVO X2 Pipeline)
+### Option E — n8n Workflow Automation (local setup)
 
 For automated panel interpretation triggered by incoming scanned images:
 
@@ -316,7 +308,7 @@ This skill provides **clinical decision support** — it is not a replacement fo
 
 ---
 
-## Your Complete EEHLSS Skills Library
+## Complete Skills Library in This Repository
 
 | Skill | File | Covers |
 |-------|------|--------|
@@ -325,17 +317,17 @@ This skill provides **clinical decision support** — it is not a replacement fo
 | `chemistry-hormone-interpreter` | SKILL.md (v2.0) | Chemistry + hormone panels, 12 organ systems, critical values |
 | `transfusion-medicine-interpreter` | SKILL.md | Blood bank immunohaematology — all aspects of compatibility testing |
 
-**Deploy all four** for a complete AI-assisted laboratory decision-support suite covering haematology, haemoglobinopathy, biochemistry/endocrinology, and transfusion medicine.
+Use all four together for complete lab interpretation coverage across haematology, haemoglobinopathy, chemistry/endocrinology, and transfusion medicine.
 
-### Install all four skills on EVO X2:
+### Install all four skills in Claude Code:
 ```bash
-cp -r sysmex-xn-cbc-interpreter/    /mnt/skills/user/
-cp -r hb-interpreter/                /mnt/skills/user/
-cp -r chemistry-hormone-interpreter/ /mnt/skills/user/
-cp -r transfusion-medicine-interpreter/ /mnt/skills/user/
-
-echo "All 4 EEHLSS skills installed:"
-ls /mnt/skills/user/
+git clone https://github.com/eehlss/lab-interpreter-skills.git
+cd lab-interpreter-skills
+mkdir -p .claude/skills
+cp -R sysmex-xn-cbc-interpreter-skill .claude/skills/
+cp -R hb-interpreter-skill .claude/skills/
+cp -R chemistry-hormone-interpreter-skill .claude/skills/
+cp -R immunohaematology-interpreter-skill .claude/skills/
 ```
 
 ---
@@ -346,7 +338,7 @@ ls /mnt/skills/user/
 |------|------------|
 | `SKILL.md` | The skill itself — 1,138 lines of clinical interpretation logic. Install this into Claude. |
 | `README.md` | This file — installation and usage instructions. |
-| `RESEARCH_DEEP_DIVE.md` | 533-line academic research document covering current evidence base, 8 identified research gaps, and the EEHLSS implementation roadmap. Not required for clinical use — for research and development reference. |
+| `RESEARCH_DEEP_DIVE.md` | 533-line academic research document covering current evidence base and implementation roadmap. Not required for clinical use — for research and development reference. |
 
 ---
 
@@ -360,10 +352,9 @@ ls /mnt/skills/user/
 
 ## Contact
 
-Developed and maintained by **Echukwuka** for **EEHLSS / MedLabAI-LIS**.
+Developed and maintained by **Echukwuka**.
 For clinical queries on complex transfusion cases, consult your Consultant Haematologist, Transfusion Medicine Physician, or National Blood Transfusion Service Reference Laboratory.
 
 ---
 
-*EEHLSS / MedLabAI-LIS · eehlss.io · alafiaai.io*
 *For use in accredited clinical laboratory practice. All results require validation by a qualified Medical Laboratory Scientist or Transfusion Medicine Physician.*
