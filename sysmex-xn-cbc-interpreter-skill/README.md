@@ -1,6 +1,6 @@
 # Sysmex XN-Series CBC Interpreter & Troubleshooter — SKILL.md
 
-**Developed by:** Echukwuka | EEHLSS / MedLabAI-LIS  
+**Developed by:** Echukwuka  
 **Version:** 1.0 | **Last Updated:** April 2026  
 **Compatible Instruments:** Sysmex XN-1000 · XN-3100 · XN-9000 (all XN-Series modules)  
 **Standards Referenced:** ICSH 2014 · CLSI H20-A2 · BSH 2009 · ISO 15189:2022
@@ -42,52 +42,50 @@ It is designed for use by Medical Laboratory Scientists, Haematology Technologis
 
 ## How to Install This Skill on Your Own System
 
-This skill is designed for use with **Claude.ai** (the web or mobile app) via the Skills/Custom Instructions system, or with any Claude API-based system that supports skill/prompt injection.
+This README focuses on local setup for colleagues using Claude Code.
 
-### Option A — Claude.ai (Web or Mobile App)
+### Option A — Clone the repository and run in Claude Code (recommended)
 
-This is the simplest route for individual users and colleagues who use Claude.ai directly.
-
-**Step 1:** Open Claude.ai in your browser or the Claude mobile app and sign in.
-
-**Step 2:** Go to **Settings → Custom Instructions** (or the equivalent "System Prompt" or "Memories" panel depending on your interface version).
-
-**Step 3:** Open the `SKILL.md` file from this folder in any text editor (Notepad, VS Code, TextEdit, etc.).
-
-**Step 4:** Copy the **entire contents** of `SKILL.md` and paste it into the Custom Instructions field.
-
-**Step 5:** Save. Claude will now apply this skill automatically whenever you upload a Sysmex XN result image and ask for an interpretation.
-
-> Note: If your Custom Instructions field has a character limit, paste from `## PHASE 2` onwards (skipping the YAML front-matter header) — this preserves all the clinical logic. The header is only needed for systems that read metadata from the YAML block.
-
----
-
-### Option B — Claude.ai Skills Folder (EEHLSS / MedLabAI-LIS Local Setup)
-
-If you are running a local or server-based Claude environment with a `/mnt/skills/` directory (as used in the EEHLSS EVO X2 setup):
-
-**Step 1:** Copy the entire `sysmex-xn-cbc-interpreter/` folder to your skills directory:
+**Step 1:** Clone the repository on your local PC:
 
 ```bash
-cp -r sysmex-xn-cbc-interpreter/ /mnt/skills/user/sysmex-xn-cbc-interpreter/
+git clone https://github.com/eehlss/lab-interpreter-skills.git
+cd lab-interpreter-skills
 ```
 
-**Step 2:** Verify the file is in place:
+**Step 2:** Copy this skill folder into the project-level Claude Code skills path:
 
 ```bash
-ls /mnt/skills/user/sysmex-xn-cbc-interpreter/
-# Should return: SKILL.md  README.md
+mkdir -p .claude/skills
+cp -R sysmex-xn-cbc-interpreter-skill .claude/skills/
 ```
 
-**Step 3:** Claude will now auto-detect this skill from the `<available_skills>` list and trigger it when you upload a Sysmex XN printout image and use any of the trigger phrases listed below.
+**Step 3:** Open Claude Code in the repository folder and use prompts like:
 
-No restart or reloading is required — skills are read at the start of each conversation.
+- "Interpret this Sysmex XN CBC result"
+- "Check my Sysmex flags"
+- "Is a blood film needed for this result?"
 
----
+### Option B — Install for all projects on your local PC
 
-### Option C — Claude API Integration (Developers / LIS Developers)
+If you want the skill available across all local projects:
 
-If you are integrating this skill into a custom application (e.g., embedding CBC interpretation into MedLabAI-LIS or a laboratory workflow tool via the Claude API):
+```bash
+mkdir -p ~/.claude/skills
+cp -R sysmex-xn-cbc-interpreter-skill ~/.claude/skills/
+```
+
+### Option C — Claude.ai (Web or Mobile App)
+
+1. Open Claude.ai and sign in.
+2. Go to Settings and then Custom Instructions.
+3. Open SKILL.md from this folder.
+4. Copy the full SKILL.md content into Custom Instructions.
+5. Save and start a new chat.
+
+### Option D — Claude API Integration (Developers / LIS Developers)
+
+If you are integrating this skill into a custom application or a laboratory workflow tool via the Claude API:
 
 **Step 1:** Read the full contents of `SKILL.md` into a string in your application code.
 
@@ -138,9 +136,9 @@ print(message.content[0].text)
 
 ---
 
-### Option D — n8n Workflow Automation (EEHLSS EVO X2 / Local Inference)
+### Option E — n8n Workflow Automation (local setup)
 
-If you are running automated CBC interpretation via n8n on your EVO X2:
+If you are running automated CBC interpretation via n8n locally:
 
 **Step 1:** Create an n8n **HTTP Request** node pointing to your Claude API endpoint (`https://api.anthropic.com/v1/messages`).
 
@@ -293,9 +291,7 @@ For laboratory networks or shared systems, **Option B** (skills folder) or **Opt
 - **Claude API** access is required for Option C (developer integration) and Option D (n8n automation)
 
 ### Attribution
-If you adapt or extend this skill for your own laboratory, please retain the attribution line at the bottom of `SKILL.md`:
-
-> *EEHLSS / MedLabAI-LIS | Skill maintained by Echukwuka | Aligned to ICSH 2014, CLSI H20-A2, BSH 2009, ISO 15189:2022*
+If you adapt or extend this skill for your own laboratory, retain standards references and author credit in SKILL.md.
 
 ---
 
@@ -331,12 +327,11 @@ A: The skill is written in English. Claude itself can respond in other languages
 
 ## Contact & Feedback
 
-Developed and maintained by **Echukwuka** for **EEHLSS / MedLabAI-LIS**.  
-Feedback, flag additions, or reference range corrections can be submitted to the EEHLSS development team.
+Developed and maintained by **Echukwuka**.  
+Feedback, flag additions, or reference range corrections can be submitted through your repository issues workflow.
 
 For clinical queries about specific patient results, this tool provides decision support only — consult a Consultant Haematologist or senior MLS for complex or critical cases.
 
 ---
 
-*EEHLSS / MedLabAI-LIS · eehlss.io · alafiaai.io*  
 *For use in accredited clinical laboratory practice. Results must be validated by a qualified Medical Laboratory Scientist.*

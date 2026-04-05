@@ -1,6 +1,6 @@
 # Clinical Chemistry & Hormone Panel Interpreter — SKILL.md v2.0
 
-**Developed by:** Echukwuka | EEHLSS / MedLabAI-LIS
+**Developed by:** Echukwuka
 **Version:** 2.0 | **Updated:** April 2026
 **Instruments:** Siemens Atellica CH (photometry/IMT/EMIT/PETINIA) · Atellica IM (chemiluminescence/acridinium ester) · Roche Cobas (ECLIA) · Compatible with Mindray, Abbott Architect, Beckman AU series
 **Standards:** IFCC · CLSI · ISO 15189:2022 · JCAHO NPSG.02.03.01 · CBAHI · SFDA · ESC 2023 · Endocrine Society · IOF · NICE · KDIGO 2022
@@ -58,19 +58,43 @@ This Claude AI skill interprets clinical chemistry and hormone panel results fro
 
 ## How to Install
 
-### Option A — Claude.ai (Easiest for individuals)
-1. Open Claude.ai → **Settings → Custom Instructions**
-2. Open `SKILL.md` in any text editor
-3. Copy entire file → paste into Custom Instructions → Save
+### Option A — Clone the repository and run in Claude Code (recommended)
 
-### Option B — EEHLSS EVO X2 Skills Folder
+1. Clone this repository locally:
+
 ```bash
-cp -r chemistry-hormone-interpreter/ /mnt/skills/user/chemistry-hormone-interpreter/
-ls /mnt/skills/user/chemistry-hormone-interpreter/
-# Expected: SKILL.md  README.md
+git clone https://github.com/eehlss/lab-interpreter-skills.git
+cd lab-interpreter-skills
 ```
 
-### Option C — Claude API Integration
+2. Add this skill folder to Claude Code project skills:
+
+```bash
+mkdir -p .claude/skills
+cp -R chemistry-hormone-interpreter-skill .claude/skills/
+```
+
+3. Open Claude Code in the repository and ask, for example:
+- "Interpret this chemistry and hormone panel"
+- "Thyroid only"
+- "Cardiac only"
+
+### Option B — Install for all projects on your local PC
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R chemistry-hormone-interpreter-skill ~/.claude/skills/
+```
+
+### Option C — Claude.ai (Web or Mobile App)
+
+1. Open Claude.ai and sign in.
+2. Go to Settings and then Custom Instructions.
+3. Open SKILL.md from this folder.
+4. Copy the full SKILL.md content into Custom Instructions.
+5. Save and start a new chat.
+
+### Option D — Claude API Integration
 ```python
 import anthropic, base64
 
@@ -96,7 +120,7 @@ response = client.messages.create(
 print(response.content[0].text)
 ```
 
-### Option D — n8n Automation (EVO X2)
+### Option E — n8n Automation (local setup)
 Wire HTTP Request node → `https://api.anthropic.com/v1/messages`:
 - `system` = SKILL.md content
 - `messages[0].content` = base64 image + patient context text
@@ -209,7 +233,7 @@ New critical thresholds added in v2.0: Vitamin D severe deficiency (<12 nmol/L) 
 
 ---
 
-## Your Full EEHLSS Skills Library
+## Recommended Companion Skills
 
 | Skill | File | Covers |
 |-------|------|--------|
@@ -217,17 +241,18 @@ New critical thresholds added in v2.0: Vitamin D severe deficiency (<12 nmol/L) 
 | `hb-interpreter` | SKILL.md | Bio-Rad HPLC + Sebia CZE haemoglobinopathy diagnosis |
 | `chemistry-hormone-interpreter` | SKILL.md (v2.0) | Full chemistry + hormone panels, 12 organ systems, critical values |
 
-**Deploy all three** for a comprehensive laboratory AI decision-support suite covering haematology, haemoglobinopathy, and clinical biochemistry/endocrinology.
+Use these together for broader lab interpretation coverage across haematology, haemoglobinopathy, and chemistry/endocrinology.
 
 ---
 
-## Deploy to EVO X2 (all three skills)
+## Install All Three Skills in Claude Code (optional)
 ```bash
-cp -r sysmex-xn-cbc-interpreter/ /mnt/skills/user/
-cp -r hb-interpreter/ /mnt/skills/user/
-cp -r chemistry-hormone-interpreter/ /mnt/skills/user/
-echo "All 3 EEHLSS skills installed."
-ls /mnt/skills/user/
+git clone https://github.com/eehlss/lab-interpreter-skills.git
+cd lab-interpreter-skills
+mkdir -p .claude/skills
+cp -R sysmex-xn-cbc-interpreter-skill .claude/skills/
+cp -R hb-interpreter-skill .claude/skills/
+cp -R chemistry-hormone-interpreter-skill .claude/skills/
 ```
 
 ---
@@ -241,5 +266,4 @@ ls /mnt/skills/user/
 
 ---
 
-*EEHLSS / MedLabAI-LIS · eehlss.io · alafiaai.io*
 *For use in accredited clinical laboratory practice. Results require validation by a qualified Medical Laboratory Scientist.*

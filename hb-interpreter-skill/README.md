@@ -1,6 +1,6 @@
 # Hemoglobinopathy Full-Spectrum Interpreter — SKILL.md
 
-**Developed by:** Echukwuka | EEHLSS / MedLabAI-LIS  
+**Developed by:** Echukwuka  
 **Version:** 1.0 | **Last Updated:** April 2026  
 **Instruments Covered:** Bio-Rad VARIANT II HPLC (V2_BThal) · Sebia Capillarys 2/3 OCTA (CZE)  
 **Standards:** TIF · BSH · ICSH · ACMG · WHO · ISO 15189:2022 · CBAHI
@@ -55,42 +55,44 @@ Upload a photograph or scan of either or both result printouts, provide the pati
 
 ## How to Install This Skill on Your Own System
 
-### Option A — Claude.ai (Web or Mobile App) — Easiest for Individuals
+### Option A — Clone the repository and run in Claude Code (recommended)
 
-**Step 1:** Sign in to Claude.ai at claude.ai in your browser or on the Claude mobile app.
+**Step 1:** Clone this repository locally:
 
-**Step 2:** Go to **Settings → Custom Instructions** (or equivalent prompt/system panel in your interface).
-
-**Step 3:** Open `SKILL.md` from this folder in any text editor (Notepad, VS Code, TextEdit, etc.).
-
-**Step 4:** Copy the entire file contents and paste into the Custom Instructions field.
-
-**Step 5:** Save. The skill is now active. Upload a result image in your next conversation and it will apply automatically.
-
-> If the Custom Instructions field has a character limit, start copying from `## PHASE 0` onwards (you can omit the YAML front-matter header). All clinical logic is in the body of the document.
-
----
-
-### Option B — EEHLSS EVO X2 Skills Folder (Local Server Setup)
-
-For the EEHLSS local Claude environment with `/mnt/skills/`:
-
-**Step 1:** Copy the folder to your skills directory:
 ```bash
-cp -r hb-interpreter/ /mnt/skills/user/hb-interpreter/
+git clone https://github.com/eehlss/lab-interpreter-skills.git
+cd lab-interpreter-skills
 ```
 
-**Step 2:** Verify:
+**Step 2:** Add this skill folder to Claude Code project skills:
+
 ```bash
-ls /mnt/skills/user/hb-interpreter/
-# Should return: SKILL.md  README.md
+mkdir -p .claude/skills
+cp -R hb-interpreter-skill .claude/skills/
 ```
 
-**Step 3:** Claude will auto-detect the skill from the `<available_skills>` block. Use any of the trigger phrases below to activate it.
+**Step 3:** Open Claude Code in the repository and ask, for example:
 
----
+- "Interpret this Hb HPLC result"
+- "Interpret this Sebia CZE pattern"
+- "Is this thalassemia or iron deficiency?"
 
-### Option C — Claude API Integration (MedLabAI-LIS / Developer)
+### Option B — Install for all projects on your local PC
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R hb-interpreter-skill ~/.claude/skills/
+```
+
+### Option C — Claude.ai (Web or Mobile App)
+
+1. Open Claude.ai and sign in.
+2. Go to Settings and then Custom Instructions.
+3. Open SKILL.md from this folder.
+4. Copy the full SKILL.md content into Custom Instructions.
+5. Save and start a new chat.
+
+### Option D — Claude API Integration (Developer)
 
 **Step 1:** Read `SKILL.md` into a string in your application.
 
@@ -132,7 +134,7 @@ print(response.content[0].text)
 
 ---
 
-### Option D — n8n Workflow Automation (EVO X2)
+### Option E — n8n Workflow Automation (local setup)
 
 **Step 1:** Create an HTTP Request node → `https://api.anthropic.com/v1/messages`
 
@@ -261,14 +263,16 @@ The skill activates on:
 
 ## Sharing With Colleagues
 
-Share the entire `hb-interpreter/` folder containing:
+Share the entire `hb-interpreter-skill/` folder containing:
 - `SKILL.md` — the interpretation framework
 - `README.md` — this file
 
-**Minimum access:** Claude.ai Free account (Option A above). For regular clinical use, Claude.ai Pro is recommended.
+Recommended colleague workflow:
+1. Clone `https://github.com/eehlss/lab-interpreter-skills.git`.
+2. From the repo root, copy the skill into `.claude/skills/`.
+3. Open Claude Code and run interpretation prompts with patient context.
 
-**Attribution:** If you adapt this skill, please retain the footer line:
-> *EEHLSS / MedLabAI-LIS | Maintained by Echukwuka | Aligned to TIF, BSH, ICSH, ACMG, ISO 15189:2022, CBAHI*
+**Minimum access:** Claude.ai Free account (Option A above). For regular clinical use, Claude.ai Pro is recommended.
 
 ---
 
@@ -304,10 +308,9 @@ The Sysmex XN skill interprets automated CBC results (blood count, differential,
 
 ## Contact
 
-Developed and maintained by **Echukwuka** for **EEHLSS / MedLabAI-LIS**.  
+Developed and maintained by **Echukwuka**.  
 Clinical queries → consult a Consultant Haematologist or Clinical Geneticist for complex or critical cases.
 
 ---
 
-*EEHLSS / MedLabAI-LIS · eehlss.io · alafiaai.io*  
 *For use in accredited clinical laboratory practice. Results require validation by a qualified Medical Laboratory Scientist.*
