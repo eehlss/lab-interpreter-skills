@@ -1,5 +1,7 @@
 # Lab Interpreter Skills
 
+**GitHub Repository:** https://github.com/eehlss/lab-interpreter-skills
+
 This repository bundles four clinical laboratory interpretation skills designed for Claude-based workflows.
 
 Each subfolder contains:
