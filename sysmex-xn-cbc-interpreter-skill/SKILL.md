@@ -526,33 +526,34 @@ After completing Phases 2–6, output the following structured report:
 
 ## PHASE 8 — WORKED EXAMPLE (APPLIED TO SAMPLE IMAGE)
 
-**This section demonstrates how to apply the skill to a real result — use as template.**
+**This section demonstrates how to apply the skill to a result — use as template. The example below is *Synthetic, de-identified*: all identifiers and values are invented and do not come from any real patient, sample or instrument.**
 
 **Patient context from uploaded image:**
 - Sample: SYN-CBC-0001 | Date: 2099/01/01 | Instrument: Sysmex XN-3100 (SYNTHETIC — no real instrument or serial number)
+- *Synthetic, de-identified example.*
 - No age/sex provided in image → **Must request from user before full interpretation**
 
 **Parameter Extract from image:**
-- WBC: 17.10 ×10³/µL | RBC: 5.09 ×10⁶/µL | HGB: 15.3 g/dL | HCT: 44.3%
-- MCV: 87.0 fL | MCH: 30.1 pg | MCHC: 34.5 g/dL | PLT: 519 ×10³/µL
-- NEUT: 8.15/47.7% | LYMPH: 4.33/25.3% | MONO: 1.70/9.9% | EO: 2.10/12.3%
-- BASO: 0.82/4.8% | IG: 2.04/11.9% | NRBC: 1.03 ×10³/µL (6.0%)
-- RET: 1.16% | IRF: 24.6% | RET-He: 26.1 pg
-- LFR: 75.4% | MFR: 21.0% | HFR: 3.6%
+- WBC: 15.60 ×10³/µL | RBC: 4.82 ×10⁶/µL | HGB: 14.4 g/dL | HCT: 42.1%
+- MCV: 87.3 fL | MCH: 29.9 pg | MCHC: 34.2 g/dL | PLT: 487 ×10³/µL
+- NEUT: 7.89/50.6% | LYMPH: 3.74/24.0% | MONO: 1.40/9.0% | EO: 1.87/12.0%
+- BASO: 0.69/4.4% | IG: 1.64/10.5% | NRBC: 1.12 ×10³/µL (7.2%)
+- RET: 1.32% | IRF: 21.8% | RET-He: 25.4 pg
+- LFR: 78.2% | MFR: 18.9% | HFR: 2.9%
 
 **Preliminary interpretation (age/sex unknown — for demonstration):**
 
-*WBC elevation (17.10):* Leukocytosis. Differential shows relative neutrophilia, eosinophilia (12.3% = 2.10 ×10³/µL — elevated), basophilia (4.8% = 0.82 ×10³/µL — elevated), and **IG 11.9% (2.04 ×10³/µL — significantly elevated)**. Combined picture of eosinophilia + basophilia + elevated IG strongly suggests a **myeloproliferative disorder, particularly CML** — requires urgent blood film and BCR-ABL1 molecular testing.
+*WBC elevation (15.60):* Leukocytosis. Differential shows absolute neutrophilia (NEUT# 7.89 ×10³/µL — elevated; NEUT% 50.6% — within range, so not a relative neutrophilia), eosinophilia (12.0% = 1.87 ×10³/µL — elevated), basophilia (4.4% = 0.69 ×10³/µL — elevated), and **IG 10.5% (1.64 ×10³/µL — significantly elevated)**. Combined picture of eosinophilia + basophilia + elevated IG strongly suggests a **myeloproliferative disorder, particularly CML** — requires urgent blood film and BCR-ABL1 molecular testing.
 
-*NRBC: 1.03 ×10³/µL (6.0%):* Significant NRBC — **blood film mandatory**. In context of possible CML, NRBCs may represent leukoerythroblastic reaction.
+*NRBC: 1.12 ×10³/µL (7.2%):* Significant NRBC — **blood film mandatory**. In context of possible CML, NRBCs may represent leukoerythroblastic reaction.
 
-*RBC/HGB/HCT:* Within reference range (assuming adult). MCHC 34.5 — normal.
+*RBC/HGB/HCT:* Within reference range (assuming adult). MCHC 34.2 — normal.
 
-*PLT: 519 ×10³/µL:* Thrombocytosis. Reactive or primary (essential thrombocythemia vs. CML thrombocytosis).
+*PLT: 487 ×10³/µL:* Thrombocytosis. Reactive or primary (essential thrombocythemia vs. CML thrombocytosis).
 
-*RET-He: 26.1 pg:* Below 28 pg → Indicates **functional iron deficiency** — possible concurrent iron-deficient erythropoiesis despite normal HGB. Consider ferritin.
+*RET-He: 25.4 pg:* Below 28 pg → Indicates **functional iron deficiency** — possible concurrent iron-deficient erythropoiesis despite normal HGB. Consider ferritin.
 
-*IRF: 24.6%:* Elevated — indicates active erythropoiesis with young reticulocytes being released, consistent with increased marrow output.
+*IRF: 21.8%:* Elevated — indicates active erythropoiesis with young reticulocytes being released, consistent with increased marrow output.
 
 **Blood Film Decision:** MANDATORY — STAT  
 **Targets:** Blasts, myeloid left shift, tear-drop cells, NRBC morphology, eosinophil morphology, basophil count, platelet morphology, any hypersegmented or dysplastic forms
@@ -561,7 +562,7 @@ After completing Phases 2–6, output the following structured report:
 1. 🚨 STAT blood film — blast/myeloproliferative screen  
 2. Notify clinician — pattern consistent with possible CML or myeloproliferative neoplasm  
 3. Request: BCR-ABL1 FISH/PCR, bone marrow referral if not known diagnosis  
-4. Request serum ferritin (RET-He 26.1 pg)  
+4. Request serum ferritin (RET-He 25.4 pg)  
 5. Confirm QC was run today; if uncertain, run before reporting
 
 ---
