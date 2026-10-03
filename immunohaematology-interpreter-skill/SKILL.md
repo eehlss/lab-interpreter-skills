@@ -14,6 +14,8 @@ description: >
   guidance. Asks for patient history, clinical context, testing phase, and prior results.
 ---
 
+> **Research Purpose Only.** This material is a research and decision-support resource. It is not a validated or approved medical device, and its output must not be the sole basis for any clinical decision; all results require review by a qualified professional.
+
 # Transfusion Medicine & Immunohaematology Interpreter
 ### Comprehensive Blood Bank Decision Support — All Component Types
 

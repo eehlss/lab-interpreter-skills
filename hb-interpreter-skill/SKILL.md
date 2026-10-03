@@ -13,6 +13,8 @@ description: >
   action plan. Asks for missing CBC data before completing diagnosis.
 ---
 
+> **Research Purpose Only.** This material is a research and decision-support resource. It is not a validated or approved medical device, and its output must not be the sole basis for any clinical decision; all results require review by a qualified professional.
+
 # Hemoglobinopathy Full-Spectrum Interpreter
 ### Bio-Rad VARIANT II HPLC + Sebia Capillarys 3 OCTA CZE
 

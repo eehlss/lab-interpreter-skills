@@ -1,3 +1,5 @@
+> **Research Purpose Only.** This material is a research and decision-support resource. It is not a validated or approved medical device, and its output must not be the sole basis for any clinical decision; all results require review by a qualified professional.
+
 # Transfusion Medicine & Immunohaematology Interpreter — README
 
 **Skill name:** `transfusion-medicine-interpreter`

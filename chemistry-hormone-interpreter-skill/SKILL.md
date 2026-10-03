@@ -13,6 +13,8 @@ description: >
   Always asks for missing age, sex, cycle day, sample time, fasting status.
 ---
 
+> **Research Purpose Only.** This material is a research and decision-support resource. It is not a validated or approved medical device, and its output must not be the sole basis for any clinical decision; all results require review by a qualified professional.
+
 # Clinical Chemistry & Hormone Panel Interpreter — v2.0
 ### Siemens Atellica CH/IM · Roche Cobas · Multi-Platform Compatible
 

@@ -13,6 +13,8 @@ description: >
   EEHLSS-branded conclusion + action plan.
 ---
 
+> **Research Purpose Only.** This material is a research and decision-support resource. It is not a validated or approved medical device, and its output must not be the sole basis for any clinical decision; all results require review by a qualified professional.
+
 # Sysmex XN-Series CBC Result Interpreter & Troubleshooter
 
 **Version:** 1.0 | **Platform:** Sysmex XN-1000 / XN-3100 / XN-9000  
