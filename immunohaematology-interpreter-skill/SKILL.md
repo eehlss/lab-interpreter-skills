@@ -931,7 +931,9 @@ Before interpreting, collect the following. **Ask for any missing items before p
 
 ## PHASE 11 — IMAGE-SPECIFIC INTERPRETATION: UPLOADED PANELS
 
-### Analysis of Images 1, 2, 3, 4 (Patient Case Example)
+### Analysis of Images 1, 2, 3, 4 (Patient Case Example — *Synthetic, de-identified*)
+
+> *Synthetic, de-identified example.* Panel lot numbers and dates below are invented placeholders (year 2099) and do not correspond to any real reagent lot, patient, sample or laboratory run. The serological reasoning is unchanged.
 
 **Image 1 (Bio-Rad ID-DiaPanel — Panel A):**
 Lot: SYN-LOT-A-0001 (synthetic) | Date: 2099.01.01 (synthetic) | Method: Gel CAT (IAT)
