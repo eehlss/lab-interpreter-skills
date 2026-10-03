@@ -1,2 +1,5 @@
 # macOS Finder metadata
 .DS_Store
+
+# Real printouts for validation must never be committed to a public repo
+validation-real/
