@@ -1,0 +1,7 @@
+{
+  "case_id": "IH-011",
+  "expected_antibodies": [
+    "Fya"
+  ],
+  "expected_confidence": "moderate"
+}

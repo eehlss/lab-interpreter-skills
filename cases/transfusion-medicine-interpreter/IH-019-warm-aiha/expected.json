@@ -1,0 +1,8 @@
+{
+  "case_id": "IH-019",
+  "expected_panel_status": "positive_autocontrol",
+  "expected_dat_positive": true,
+  "expected_dat_pattern": "IgG_only",
+  "expected_workup": "warm_aiha",
+  "notes": "Warm AIHA: DAT IgG+, panreactive eluate. Workup: autoadsorption to exclude underlying alloantibody."
+}

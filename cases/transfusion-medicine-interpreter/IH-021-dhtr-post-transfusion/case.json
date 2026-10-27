@@ -1,0 +1,48 @@
+{
+  "case_id": "IH-021",
+  "patient_id": "SYN-PAT-021",
+  "date": "2099-10-05",
+  "patient_abo": "A",
+  "patient_rh": "Pos",
+  "patient_age": 55,
+  "patient_sex": "male",
+  "clinical_context": "delayed_htr_day_7_post_transfusion",
+  "autocontrol": "2+",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "3+",
+      "antigens": {
+        "D": "+",
+        "Jka": "+",
+        "Jkb": "0"
+      },
+      "dosage": {
+        "Jka": "homozygous"
+      }
+    },
+    {
+      "cell_id": "2",
+      "reaction": "0",
+      "antigens": {
+        "D": "+",
+        "Jka": "0",
+        "Jkb": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "3",
+      "reaction": "2+",
+      "antigens": {
+        "D": "+",
+        "Jka": "+",
+        "Jkb": "+"
+      },
+      "dosage": {}
+    }
+  ],
+  "dat_polyspecific": "2+",
+  "dat_monospecific_igg": "2+",
+  "dat_monospecific_c3d": "1+"
+}

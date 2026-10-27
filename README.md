@@ -17,6 +17,8 @@ PanelGuard turns antibody panel workups into reviewed, explained recommendations
 
 ### Quick Start
 
+**macOS / Linux:**
+
 ```bash
 git clone https://github.com/eehlss/lab-interpreter-skills.git
 cd lab-interpreter-skills
@@ -28,7 +30,16 @@ pytest apps/panelguard/tests/ -v
 uvicorn app.main:app --app-dir apps/panelguard --host 0.0.0.0 --port 8080
 ```
 
-**Windows:** Use `python -m venv .venv && call .venv\Scripts\activate.bat` and `set` instead of `export`.
+**Windows (cmd - single-line commands):**
+
+```cmd
+git clone https://github.com/eehlss/lab-interpreter-skills.git && cd lab-interpreter-skills
+python -m venv .venv && call .venv\Scripts\activate.bat && pip install -r apps\panelguard\requirements.txt
+set NEBIUS_API_KEY=<your-key>
+set TAVILY_API_KEY=<your-key>
+pytest apps\panelguard\tests\ -v
+python -m uvicorn app.main:app --app-dir apps\panelguard --host 127.0.0.1 --port 8080
+```
 
 See [full setup documentation](#panelguard-setup) below.
 
@@ -101,21 +112,34 @@ UI → FastAPI (PHI guard) →
 
 ### Running Tests
 
+**macOS / Linux:**
 ```bash
 cd apps/panelguard
 pytest tests/ -v
 ```
 
+**Windows (cmd):**
+```cmd
+cd apps\panelguard && pytest tests\ -v
+```
+
 ### Running Eval
 
+**macOS / Linux:**
 ```bash
 python eval/run_eval.py --cases cases/transfusion-medicine-interpreter --runs 3 --out eval/RESULTS.md
+```
+
+**Windows (cmd):**
+```cmd
+python eval\run_eval.py --cases cases\transfusion-medicine-interpreter --runs 3 --out eval\RESULTS.md
 ```
 
 **Gates:** 0 unsafe recommendations, 100% panel status accuracy, ≥90% antibody ID.
 
 ### Deploy to Cloud Run
 
+**macOS / Linux:**
 ```bash
 gcloud config set project echukwuka-435611
 gcloud secrets create nebius-api-key --replication-policy=automatic
@@ -131,6 +155,16 @@ gcloud run deploy panelguard \
   --memory 512Mi \
   --set-secrets NEBIUS_API_KEY=nebius-api-key:latest,TAVILY_API_KEY=tavily-api-key:latest \
   --set-env-vars LIVE_DAILY_CAP=40,MODEL_FAST=nvidia/Nemotron-3_5-Lightning,MODEL_MID=nvidia/Nemotron-3.5-Super-VL,MODEL_REASON=nvidia/Nemotron-3-Ultra-550b-a55b
+```
+
+**Windows (cmd - use PowerShell for echo or type keys into file):**
+```cmd
+gcloud config set project echukwuka-435611
+gcloud secrets create nebius-api-key --replication-policy=automatic
+echo|set /p="<key>" | gcloud secrets versions add nebius-api-key --data-file=-
+gcloud secrets create tavily-api-key --replication-policy=automatic
+echo|set /p="<key>" | gcloud secrets versions add tavily-api-key --data-file=-
+gcloud run deploy panelguard --source apps\panelguard --region us-central1 --min-instances 0 --max-instances 1 --memory 512Mi --set-secrets NEBIUS_API_KEY=nebius-api-key:latest,TAVILY_API_KEY=tavily-api-key:latest --set-env-vars LIVE_DAILY_CAP=40,MODEL_FAST=nvidia/Nemotron-3_5-Lightning,MODEL_MID=nvidia/Nemotron-3.5-Super-VL,MODEL_REASON=nvidia/Nemotron-3-Ultra-550b-a55b
 ```
 
 ### Repo Layout

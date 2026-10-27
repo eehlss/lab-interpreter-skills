@@ -1,0 +1,16 @@
+{
+  "case_id": "IH-025",
+  "expected_panel_status": "ok",
+  "expected_antibodies": [],
+  "expected_flags": [
+    "Sickle cell disease: extended Rh/K matching"
+  ],
+  "expected_extended_match": [
+    "C",
+    "c",
+    "E",
+    "e",
+    "K"
+  ],
+  "notes": "SCD: match C, c, E, e, K even without alloantibodies to prevent alloimmunization."
+}

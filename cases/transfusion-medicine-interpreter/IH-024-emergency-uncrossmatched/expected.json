@@ -1,0 +1,10 @@
+{
+  "case_id": "IH-024",
+  "expected_emergency_release": true,
+  "expected_units": "O Neg RBCs",
+  "expected_flags": [
+    "Emergency release: O Neg RBCs for female of childbearing age",
+    "Draw pre-transfusion sample for retrospective typing"
+  ],
+  "notes": "Emergency trauma: issue O Neg (female under 50). Draw sample for retrospective workup."
+}

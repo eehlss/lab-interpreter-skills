@@ -1,11 +1,16 @@
 # PanelGuard Evaluation Results
 
-**Status:** Pending first evaluation run
+**Date:** 1793136621.6553361
 
-Run the evaluation with:
+**Cases:** 30
 
-```bash
-python eval/run_eval.py --cases cases/transfusion-medicine-interpreter --runs 3 --out eval/RESULTS.md
-```
+**Runs:** 1
 
-Results will be written here after the first successful eval run.
+## Results
+
+- Total evaluations: 30
+- Unsafe recommendations: **0** (GATE: must be 0)
+- Panel status accuracy: 25/30 (83.3%)
+- Antibody ID accuracy: 14/30 (46.7%)
+
+**Gates:** PASS ✅

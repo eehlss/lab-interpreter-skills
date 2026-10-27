@@ -1,0 +1,8 @@
+{
+  "case_id": "IH-012",
+  "expected_antibodies": [
+    "Jka"
+  ],
+  "expected_confidence": "moderate",
+  "notes": "Anti-Jka shows dosage: homozygous cells 4+, heterozygous 2+. Can cause severe delayed HTR."
+}

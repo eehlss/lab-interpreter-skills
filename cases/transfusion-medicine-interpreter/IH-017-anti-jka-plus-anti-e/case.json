@@ -1,0 +1,80 @@
+{
+  "case_id": "IH-017",
+  "patient_id": "SYN-PAT-017",
+  "date": "2099-06-25",
+  "patient_abo": "A",
+  "patient_rh": "Pos",
+  "patient_age": 52,
+  "patient_sex": "male",
+  "clinical_context": "chronic_transfusion",
+  "autocontrol": "0",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "4+",
+      "antigens": {
+        "E": "+",
+        "Jka": "+",
+        "Jkb": "0"
+      },
+      "dosage": {
+        "E": "homozygous",
+        "Jka": "homozygous"
+      }
+    },
+    {
+      "cell_id": "2",
+      "reaction": "4+",
+      "antigens": {
+        "E": "+",
+        "Jka": "0",
+        "Jkb": "+"
+      },
+      "dosage": {
+        "E": "homozygous"
+      }
+    },
+    {
+      "cell_id": "3",
+      "reaction": "3+",
+      "antigens": {
+        "E": "0",
+        "Jka": "+",
+        "Jkb": "+"
+      },
+      "dosage": {
+        "Jka": "heterozygous"
+      }
+    },
+    {
+      "cell_id": "4",
+      "reaction": "0",
+      "antigens": {
+        "E": "0",
+        "Jka": "0",
+        "Jkb": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "5",
+      "reaction": "0",
+      "antigens": {
+        "E": "0",
+        "Jka": "0",
+        "Jkb": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "6",
+      "reaction": "0",
+      "antigens": {
+        "E": "0",
+        "Jka": "0",
+        "Jkb": "+"
+      },
+      "dosage": {}
+    }
+  ]
+}

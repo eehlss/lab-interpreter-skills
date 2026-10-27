@@ -1,0 +1,8 @@
+{
+  "case_id": "IH-014",
+  "expected_antibodies": [],
+  "expected_flags": [
+    "Cold reactive antibody (IS/RT only) - clinically insignificant at 37C"
+  ],
+  "notes": "Anti-M reactive at IS/RT, negative at 37C/AHG: clinically insignificant, no special units needed"
+}

@@ -1,0 +1,99 @@
+{
+  "case_id": "IH-010",
+  "patient_id": "SYN-PAT-010",
+  "date": "2099-12-15",
+  "patient_abo": "B",
+  "patient_rh": "Pos",
+  "patient_age": 50,
+  "patient_sex": "male",
+  "clinical_context": "multiple_transfusions",
+  "autocontrol": "0",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "0",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "c": "0",
+        "e": "+",
+        "K": "0"
+      },
+      "dosage": {
+        "C": "homozygous"
+      }
+    },
+    {
+      "cell_id": "2",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "0",
+        "E": "+",
+        "c": "+",
+        "e": "+",
+        "K": "0"
+      },
+      "dosage": {
+        "c": "homozygous"
+      }
+    },
+    {
+      "cell_id": "3",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "c": "+",
+        "e": "+",
+        "K": "0"
+      },
+      "dosage": {
+        "c": "heterozygous"
+      }
+    },
+    {
+      "cell_id": "4",
+      "reaction": "0",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "+",
+        "c": "0",
+        "e": "+",
+        "K": "0"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "5",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "0",
+        "E": "0",
+        "c": "+",
+        "e": "+",
+        "K": "0"
+      },
+      "dosage": {
+        "c": "homozygous"
+      }
+    },
+    {
+      "cell_id": "6",
+      "reaction": "0",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "c": "0",
+        "e": "+",
+        "K": "0"
+      },
+      "dosage": {}
+    }
+  ]
+}

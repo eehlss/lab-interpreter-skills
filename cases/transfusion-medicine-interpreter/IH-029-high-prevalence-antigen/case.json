@@ -1,0 +1,68 @@
+{
+  "case_id": "IH-029",
+  "patient_id": "SYN-PAT-029",
+  "date": "2099-04-10",
+  "patient_abo": "O",
+  "patient_rh": "Pos",
+  "patient_age": 40,
+  "patient_sex": "female",
+  "clinical_context": "all_cells_reactive",
+  "autocontrol": "0",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "K": "0"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "2",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "0",
+        "E": "+",
+        "K": "0"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "3",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "K": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "4",
+      "reaction": "4+",
+      "antigens": {
+        "D": "0",
+        "C": "0",
+        "E": "0",
+        "K": "0"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "5",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "0",
+        "E": "0",
+        "K": "0"
+      },
+      "dosage": {}
+    }
+  ]
+}

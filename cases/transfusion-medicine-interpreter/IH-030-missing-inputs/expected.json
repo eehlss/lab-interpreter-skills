@@ -1,0 +1,8 @@
+{
+  "case_id": "IH-030",
+  "expected_flags": [
+    "Missing mandatory inputs: age, sex, autocontrol",
+    "Cannot proceed without required data"
+  ],
+  "notes": "Incomplete data: ask for missing inputs, don't guess. Age, sex, autocontrol are mandatory."
+}

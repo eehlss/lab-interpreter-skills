@@ -1,0 +1,8 @@
+{
+  "case_id": "IH-021",
+  "expected_antibodies": [
+    "Jka"
+  ],
+  "expected_dat_positive": true,
+  "notes": "DHTR: Anti-Jka reappeared post-transfusion (anamnestic response). Mixed-field DAT from recent transfusion."
+}

@@ -1,0 +1,46 @@
+{
+  "case_id": "IH-020",
+  "patient_id": "SYN-PAT-020",
+  "date": "2099-09-10",
+  "patient_abo": "O",
+  "patient_rh": "Pos",
+  "patient_age": 72,
+  "patient_sex": "male",
+  "clinical_context": "cold_agglutinin_disease",
+  "autocontrol": "3+",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "+"
+      },
+      "dosage": {},
+      "phase": "RT"
+    },
+    {
+      "cell_id": "2",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "E": "+"
+      },
+      "dosage": {},
+      "phase": "RT"
+    },
+    {
+      "cell_id": "3",
+      "reaction": "0",
+      "antigens": {
+        "D": "+",
+        "C": "+"
+      },
+      "dosage": {},
+      "phase": "37C"
+    }
+  ],
+  "dat_polyspecific": "3+",
+  "dat_monospecific_igg": "0",
+  "dat_monospecific_c3d": "3+"
+}

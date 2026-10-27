@@ -1,0 +1,11 @@
+{
+  "case_id": "IH-017",
+  "expected_antibodies": [
+    "Jka",
+    "E"
+  ],
+  "expected_flags": [
+    "Multiple antibody candidates"
+  ],
+  "notes": "Anti-Jka + Anti-E: complex case, needs both Jka-neg and E-neg units"
+}
