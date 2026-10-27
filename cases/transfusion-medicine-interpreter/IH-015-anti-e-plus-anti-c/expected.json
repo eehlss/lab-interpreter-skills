@@ -1,9 +1,14 @@
 {
   "case_id": "IH-015",
-  "expected_panel_status": "ok",
-  "expected_antibodies": ["E", "c"],
+  "expected_panel_status": "insufficient_cells",
+  "expected_antibodies": [],
   "expected_confidence": "moderate",
-  "expected_flags": ["multiple"],
-  "expected_compatible_units_antigen_negative": ["E", "c"],
-  "notes": "Multiple antibody case - should route to Ultra tier"
+  "expected_flags": [
+    "multiple"
+  ],
+  "expected_compatible_units_antigen_negative": [
+    "E",
+    "c"
+  ],
+  "notes": "Only 4+/2- cells; need 3+/3- minimum for antibody ID. Add more negative cells."
 }

@@ -93,14 +93,16 @@ class PanelEngine:
         # Find candidates (not ruled out)
         candidates = all_antigens - ruled_out
         
-        # For each candidate, verify all positive cells have the antigen
+        # For each candidate, verify pattern and sufficient cells
         verified_candidates = set()
         
+        min_pos = self.rules['rule_of_three']['min_positive']
+        min_neg = self.rules['rule_of_three']['min_negative']
+        
         for antigen in candidates:
-            all_pos_cells_have_it = True
-            all_neg_cells_lack_it = True
-            pos_count = 0
-            neg_count = 0
+            pos_with_ag = 0
+            neg_without_ag = 0
+            pattern_valid = True
             
             for cell in panel_cells:
                 cell_reaction = cell.get('reaction', '0')
@@ -108,44 +110,52 @@ class PanelEngine:
                 has_antigen = self._is_antigen_positive(antigen_presence)
                 
                 if self._is_positive(cell_reaction):
-                    pos_count += 1
-                    if not has_antigen:
-                        all_pos_cells_have_it = False
-                else:
-                    neg_count += 1
                     if has_antigen:
-                        # For dosage antigens, check if it's homozygous
-                        if antigen in self.dosage_antigens:
-                            dosage = cell.get('dosage', {})
-                            if dosage.get(antigen) == 'homozygous':
-                                all_neg_cells_lack_it = False
-                        else:
-                            all_neg_cells_lack_it = False
+                        pos_with_ag += 1
+                    else:
+                        # Positive cell lacks the antigen - pattern broken
+                        pattern_valid = False
+                        break
+                else:
+                    # For negative cells, count if they LACK the antigen
+                    if not has_antigen:
+                        # Cell is antigen-negative
+                        neg_without_ag += 1
+                    elif antigen in self.dosage_antigens:
+                        # For dosage antigens, only homozygous cells can rule out
+                        # If no dosage info provided, cannot use for rule-out
+                        dosage = cell.get('dosage', {})
+                        if dosage.get(antigen) == 'homozygous':
+                            # Has antigen in homozygous form - cannot count as "without"
+                            pass
+                        elif dosage.get(antigen) == 'heterozygous':
+                            # Has antigen but heterozygous - can count as "without" for dosage purposes
+                            # (weak reaction expected, so negative reaction rules out)
+                            neg_without_ag += 1
+                        # else: no dosage info - cannot use for rule-out
             
-            if all_pos_cells_have_it:
+            # Include only if pattern is valid AND meets statistical threshold
+            if pattern_valid and pos_with_ag >= min_pos and neg_without_ag >= min_neg:
                 verified_candidates.add(antigen)
-                
-                # Check confidence based on 3+/3- or 5+/5- rule
-                if pos_count >= self.rules['rule_of_three']['high_confidence_pos'] and \
-                   neg_count >= self.rules['rule_of_three']['high_confidence_neg']:
-                    result['confidence'] = 'high'
-                elif pos_count >= self.rules['rule_of_three']['min_positive'] and \
-                     neg_count >= self.rules['rule_of_three']['min_negative']:
-                    if result['confidence'] != 'high':
-                        result['confidence'] = 'moderate'
         
-        result['candidates'] = sorted(list(verified_candidates))
         result['positive_cells'] = sum(1 for c in panel_cells if self._is_positive(c.get('reaction', '0')))
         result['negative_cells'] = sum(1 for c in panel_cells if not self._is_positive(c.get('reaction', '0')))
+        result['candidates'] = sorted(list(verified_candidates))
         
-        # Check for insufficient cells
+        # Check if we have insufficient cells overall
+        if result['positive_cells'] > 0 and (result['positive_cells'] < min_pos or result['negative_cells'] < min_neg):
+            result['status'] = 'insufficient_cells'
+            result['flags'].append(f'Insufficient cells for statistical confidence (need {min_pos}+/{min_neg}-)')
+        
+        # Check confidence level for verified candidates
         if result['candidates']:
-            min_pos = self.rules['rule_of_three']['min_positive']
-            min_neg = self.rules['rule_of_three']['min_negative']
+            high_conf_pos = self.rules['rule_of_three']['high_confidence_pos']
+            high_conf_neg = self.rules['rule_of_three']['high_confidence_neg']
             
-            if result['positive_cells'] < min_pos or result['negative_cells'] < min_neg:
-                result['status'] = 'insufficient_cells'
-                result['flags'].append(f'Insufficient cells for statistical confidence (need {min_pos}+/{min_neg}-)')
+            if result['positive_cells'] >= high_conf_pos and result['negative_cells'] >= high_conf_neg:
+                result['confidence'] = 'high'
+            elif result['positive_cells'] >= min_pos and result['negative_cells'] >= min_neg:
+                result['confidence'] = 'moderate'
         
         # Check for multiple antibodies
         if len(result['candidates']) > 1:

@@ -1,10 +1,15 @@
 {
   "case_id": "IH-008",
   "expected_panel_status": "ok",
-  "expected_antibodies": ["K"],
+  "expected_antibodies": [
+    "C",
+    "K"
+  ],
   "expected_confidence": "moderate",
   "expected_positive_cells": 3,
   "expected_negative_cells": 3,
-  "expected_compatible_units_antigen_negative": ["K"],
-  "notes": "Classic anti-K pattern with 3+/3- cells"
+  "expected_compatible_units_antigen_negative": [
+    "K"
+  ],
+  "notes": "Classic anti-K pattern with 3+/3- cells Note: Panel design has C co-segregating with K; both are candidates. Further testing needed to distinguish."
 }

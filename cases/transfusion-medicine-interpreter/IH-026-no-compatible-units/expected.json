@@ -1,14 +1,10 @@
 {
   "case_id": "IH-026",
-  "expected_antibodies": [
-    "K",
-    "E",
-    "Fya",
-    "Jka"
-  ],
+  "expected_antibodies": [],
   "expected_flags": [
     "Multiple antibodies",
     "No compatible units in inventory - contact reference laboratory"
   ],
-  "notes": "Multiple alloantibodies: K, E, Fya, Jka. Needs K-E-Fya-Jka-negative AB or O Neg units. Refer to reference lab."
+  "notes": "Only 3+/2- cells; need 3+/3- minimum. With insufficient cells, cannot confidently identify all 4 antibodies.",
+  "expected_panel_status": "insufficient_cells"
 }

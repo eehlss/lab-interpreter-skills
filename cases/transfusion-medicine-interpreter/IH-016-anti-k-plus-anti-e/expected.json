@@ -1,13 +1,10 @@
 {
   "case_id": "IH-016",
-  "expected_antibodies": [
-    "K",
-    "E"
-  ],
+  "expected_antibodies": [],
   "expected_confidence": "moderate",
   "expected_flags": [
     "Multiple antibody candidates",
     "Sickle cell disease: extended Rh/K matching"
   ],
-  "notes": "SCD patient with anti-K + anti-E: needs K-neg, E-neg units plus extended C/c/e matching"
+  "notes": "SCD patient with anti-K + anti-E: needs K-neg, E-neg units plus extended C/c/e matching Panel has only 2 positive cells for each antibody; need 3+ for statistical confidence."
 }

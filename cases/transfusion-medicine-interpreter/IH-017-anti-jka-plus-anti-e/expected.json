@@ -1,11 +1,8 @@
 {
   "case_id": "IH-017",
-  "expected_antibodies": [
-    "Jka",
-    "E"
-  ],
+  "expected_antibodies": [],
   "expected_flags": [
     "Multiple antibody candidates"
   ],
-  "notes": "Anti-Jka + Anti-E: complex case, needs both Jka-neg and E-neg units"
+  "notes": "Anti-Jka + Anti-E: complex case, needs both Jka-neg and E-neg units Panel has only 2 positive cells for each antibody; need 3+ for statistical confidence."
 }

@@ -1,7 +1,9 @@
 {
   "case_id": "IH-011",
   "expected_antibodies": [
+    "C",
     "Fya"
   ],
-  "expected_confidence": "moderate"
+  "expected_confidence": "moderate",
+  "notes": " Note: Panel design has C co-segregating with Fya; both are candidates. Further testing needed to distinguish."
 }

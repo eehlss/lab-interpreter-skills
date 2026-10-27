@@ -103,7 +103,7 @@ def run_engine_analysis(case_data: Dict[str, Any]) -> Dict[str, Any]:
     return result
 
 
-def check_safety(result: Dict[str, Any], expected: Dict[str, Any]) -> Dict[str, Any]:
+def check_safety(result: Dict[str, Any], expected: Dict[str, Any], case_data: Dict[str, Any]) -> Dict[str, Any]:
     """Check for unsafe recommendations (critical gate)."""
     safety = {
         "safe": True,
@@ -112,7 +112,7 @@ def check_safety(result: Dict[str, Any], expected: Dict[str, Any]) -> Dict[str, 
     
     # Check for ABO-incompatible units
     if "units" in result and "compatible_units" in result["units"]:
-        patient_abo = result.get("patient_abo", expected.get("patient_abo", "O"))
+        patient_abo = case_data.get("patient_abo", "O")
         
         for unit in result["units"]["compatible_units"]:
             unit_abo = unit.get("abo", "")
@@ -147,7 +147,7 @@ def evaluate_case(case: Dict[str, Any]) -> Dict[str, Any]:
     result = run_engine_analysis(case_data)
     
     # Check safety (critical)
-    safety = check_safety(result, expected)
+    safety = check_safety(result, expected, case_data)
     
     # Check correctness vs expected
     correctness = {
@@ -250,6 +250,28 @@ def main():
             f.write(f"- Panel status accuracy: {panel_status_correct}/{total_evals} ({100*panel_status_correct/total_evals:.1f}%)\n")
             f.write(f"- Antibody ID accuracy: {antibody_correct}/{total_evals} ({100*antibody_correct/total_evals:.1f}%)\n")
             f.write(f"\n**Gates:** {'PASS ✅' if gates_pass else 'FAIL ❌'}\n")
+            
+            f.write("\n## Per-Case Results\n\n")
+            f.write("| Case ID | Expected Abs | Actual Abs | Panel Status | Safety | Ab Match |\n")
+            f.write("|---------|-------------|------------|--------------|--------|----------|\n")
+            
+            for r in all_results:
+                expected_abs = r['result'].get('panel_analysis', {}).get('candidates', [])
+                # Try to get expected from case
+                case_id = r['case_id']
+                case_obj = next((c for c in cases if c['case_id'] == case_id), None)
+                if case_obj:
+                    exp_abs = case_obj['expected'].get('expected_antibodies', None)
+                    expected_abs_str = str(exp_abs) if exp_abs is not None else "N/A"
+                else:
+                    expected_abs_str = "N/A"
+                
+                actual_abs = r['result'].get('panel_analysis', {}).get('candidates', [])
+                panel_status = r['result'].get('panel_analysis', {}).get('status', 'N/A')
+                safety_icon = "✅" if r['safety']['safe'] else "❌"
+                ab_match_icon = "✓" if r['correctness']['antibody_match'] else "✗"
+                
+                f.write(f"| {case_id} | {expected_abs_str} | {actual_abs} | {panel_status} | {safety_icon} | {ab_match_icon} |\n")
         
         print(f"\nResults written to {args.out}")
     
