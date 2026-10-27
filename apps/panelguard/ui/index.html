@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PanelGuard: Blood Bank Copilot</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+        .ruo-banner {
+            background: #c62828;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 24px;
+        }
+        h1 { color: #0d1b4b; margin-bottom: 8px; }
+        h2 { color: #0d1b4b; margin: 24px 0 12px; font-size: 20px; border-left: 4px solid #76b900; padding-left: 12px; }
+        h3 { color: #14202b; margin: 16px 0 8px; font-size: 16px; }
+        .subtitle { color: #5a6b7b; margin-bottom: 20px; }
+        select, textarea, input[type="text"], button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #dfe5ec;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        button {
+            background: #2b59ff;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover { background: #1e40bf; }
+        button:disabled { background: #b0bec5; cursor: not-allowed; }
+        .result-box {
+            background: #f6f8fb;
+            border: 1px solid #dfe5ec;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .flag {
+            background: #fff6e5;
+            border-left: 4px solid #b26a00;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+        }
+        .blocked {
+            background: #fdecec;
+            border-left: 4px solid #c62828;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .unit {
+            background: white;
+            border: 1px solid #dfe5ec;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+        }
+        .sign-off {
+            background: #eaf6ea;
+            border: 1px solid #2e7d32;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+        th, td {
+            border: 1px solid #dfe5ec;
+            padding: 8px;
+            text-align: left;
+        }
+        th { background: #eef3f8; font-weight: 600; }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 4px 4px 4px 0;
+        }
+        .badge-ultra { background: #e3f2fd; color: #1565c0; }
+        .badge-mid { background: #f3e5f5; color: #6a1b9a; }
+        .badge-offline { background: #fafafa; color: #616161; }
+        pre { background: #0f1720; color: #e6edf3; padding: 12px; border-radius: 6px; overflow: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="ruo-banner">
+        ⚠️ RESEARCH AND DECISION-SUPPORT ONLY — Not a medical device. Not for clinical use. All outputs require review by a qualified professional.
+    </div>
+    
+    <div class="container">
+        <h1>🩸 PanelGuard</h1>
+        <p class="subtitle">Blood Bank Copilot powered by NVIDIA Nemotron on Nebius Token Factory</p>
+        
+        <h2>Select Case</h2>
+        <select id="caseSelect">
+            <option value="">Loading cases...</option>
+        </select>
+        <button onclick="loadCase()">Load Case</button>
+        
+        <h2>Case Input</h2>
+        <textarea id="caseInput" rows="10" placeholder='Paste case JSON or use a preset case above'></textarea>
+        <button onclick="analyzeCase()">Analyze Case</button>
+        
+        <div id="results"></div>
+        
+        <div id="signoff" style="display:none;">
+            <div class="sign-off">
+                <h3>Reviewer Sign-Off</h3>
+                <p style="margin: 8px 0;"><input type="checkbox" id="reviewCheck"> <label for="reviewCheck">Reviewed by a qualified scientist</label></p>
+                <input type="text" id="reviewerInitials" placeholder="Enter your initials">
+                <button onclick="submitSignOff()" id="releaseBtn" disabled>Release Units</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentCaseId = null;
+        
+        // Load case list on page load
+        fetch('/api/cases')
+            .then(r => r.json())
+            .then(data => {
+                const select = document.getElementById('caseSelect');
+                select.innerHTML = '<option value="">-- Select a preset case --</option>';
+                data.cases.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.id;
+                    opt.textContent = c.name;
+                    select.appendChild(opt);
+                });
+            });
+        
+        function loadCase() {
+            const caseId = document.getElementById('caseSelect').value;
+            if (!caseId) return;
+            
+            // In a real app, fetch the case file
+            // For now, show a placeholder
+            fetch(`/cases/transfusion-medicine-interpreter/${caseId}/case.json`)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('caseInput').value = JSON.stringify(data, null, 2);
+                })
+                .catch(e => {
+                    alert('Case file not found. Use custom JSON input.');
+                });
+        }
+        
+        async function analyzeCase() {
+            const input = document.getElementById('caseInput').value;
+            if (!input) return;
+            
+            let caseData;
+            try {
+                caseData = JSON.parse(input);
+            } catch (e) {
+                alert('Invalid JSON: ' + e.message);
+                return;
+            }
+            
+            document.getElementById('results').innerHTML = '<p>Analyzing...</p>';
+            
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: input
+                });
+                
+                const result = await response.json();
+                
+                if (response.status === 403) {
+                    // PHI violation
+                    document.getElementById('results').innerHTML = `
+                        <div class="blocked">
+                            ❌ PHI VIOLATION: ${result.message}
+                            <ul>${result.violations.map(v => '<li>' + v + '</li>').join('')}</ul>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                if (response.status === 429) {
+                    document.getElementById('results').innerHTML = `
+                        <div class="flag">⚠️ ${result.message}</div>
+                    `;
+                    return;
+                }
+                
+                currentCaseId = result.case_id;
+                displayResults(result);
+                
+            } catch (e) {
+                document.getElementById('results').innerHTML = `<div class="blocked">Error: ${e.message}</div>`;
+            }
+        }
+        
+        function displayResults(result) {
+            let html = '';
+            
+            // Model tier badge
+            if (result.model_tier === 'Ultra') {
+                html += '<span class="badge badge-ultra">Routed to Nemotron 3 Ultra</span>';
+            } else if (result.model_tier === 'mid') {
+                html += '<span class="badge badge-mid">Nemotron 3.5 Super VL</span>';
+            } else if (result.model_tier === 'offline') {
+                html += '<span class="badge badge-offline">Offline: Rules Only</span>';
+            }
+            
+            // Flags
+            if (result.flags && result.flags.length > 0) {
+                html += '<h2>⚠️ Safety Alerts</h2>';
+                result.flags.forEach(flag => {
+                    html += `<div class="flag">${flag}</div>`;
+                });
+            }
+            
+            // Panel analysis
+            if (result.panel_analysis) {
+                html += '<h2>Panel Analysis</h2>';
+                html += '<div class="result-box">';
+                html += `<p><b>Status:</b> ${result.panel_analysis.status}</p>`;
+                html += `<p><b>Ruled Out:</b> ${result.panel_analysis.ruled_out.join(', ') || 'None'}</p>`;
+                html += `<p><b>Candidates:</b> ${result.panel_analysis.candidates.join(', ') || 'None'}</p>`;
+                html += `<p><b>Confidence:</b> ${result.panel_analysis.confidence}</p>`;
+                html += `<p><b>Cells:</b> ${result.panel_analysis.positive_cells}+ / ${result.panel_analysis.negative_cells}-</p>`;
+                html += '</div>';
+            }
+            
+            // Compatible units
+            if (result.units && result.units.compatible_units) {
+                html += '<h2>Compatible Units</h2>';
+                html += `<p><b>Total compatible:</b> ${result.units.total_compatible}</p>`;
+                result.units.compatible_units.forEach(unit => {
+                    html += `<div class="unit">
+                        <b>${unit.unit_id}</b> — ${unit.abo} ${unit.rh}<br>
+                        <small>Phenotype: ${JSON.stringify(unit.phenotype)}</small>
+                    </div>`;
+                });
+            }
+            
+            // Narrative blocked?
+            if (result.narrative_blocked) {
+                html += '<div class="blocked">⛔ LLM narrative blocked by verifier</div>';
+                html += '<p>Violations: ' + result.violations.join(', ') + '</p>';
+                html += '<h3>Rules-Only Report:</h3>';
+                html += '<pre>' + JSON.stringify(result.safe_output, null, 2) + '</pre>';
+            } else if (result.explanation) {
+                html += '<h2>Explanation</h2>';
+                html += '<div class="result-box">';
+                html += '<h3>Summary</h3><p>' + result.explanation.summary + '</p>';
+                html += '<h3>Antibody Identification</h3><p>' + result.explanation.antibody_identification + '</p>';
+                html += '<h3>Rule-Out Logic</h3><p>' + result.explanation.rule_out_explanation + '</p>';
+                html += '<h3>Unit Selection</h3><p>' + result.explanation.unit_selection_rationale + '</p>';
+                html += '<h3>Safety Notes</h3><p>' + result.explanation.safety_notes + '</p>';
+                html += '</div>';
+            } else if (result.reasoning) {
+                html += '<h2>Complex Case Reasoning</h2>';
+                html += '<div class="result-box">';
+                html += '<h3>Complexity Assessment</h3><p>' + result.reasoning.complexity_assessment + '</p>';
+                html += '<h3>Detailed Analysis</h3><p>' + result.reasoning.detailed_analysis + '</p>';
+                html += '<h3>Next Steps</h3><p>' + result.reasoning.next_steps + '</p>';
+                html += '<h3>Clinical Significance</h3><p>' + result.reasoning.clinical_significance + '</p>';
+                html += '</div>';
+            }
+            
+            // Evidence
+            if (result.evidence) {
+                html += '<h2>📚 Clinical Evidence</h2>';
+                for (const [antibody, ev] of Object.entries(result.evidence)) {
+                    html += `<h3>Anti-${antibody}</h3>`;
+                    if (ev.sources && ev.sources.length > 0) {
+                        ev.sources.forEach(src => {
+                            html += `<p><a href="${src.url}" target="_blank">${src.title}</a><br><small>${src.snippet}</small></p>`;
+                        });
+                    } else {
+                        html += '<p><i>No evidence sources available</i></p>';
+                    }
+                }
+            }
+            
+            // Disclaimer
+            html += '<p style="margin-top: 20px; color: #5a6b7b; font-size: 13px;"><b>' + result.disclaimer + '</b></p>';
+            
+            document.getElementById('results').innerHTML = html;
+            document.getElementById('signoff').style.display = 'block';
+        }
+        
+        // Enable release button when checkbox checked and initials entered
+        document.getElementById('reviewCheck').addEventListener('change', checkSignOff);
+        document.getElementById('reviewerInitials').addEventListener('input', checkSignOff);
+        
+        function checkSignOff() {
+            const checked = document.getElementById('reviewCheck').checked;
+            const initials = document.getElementById('reviewerInitials').value.trim();
+            document.getElementById('releaseBtn').disabled = !(checked && initials);
+        }
+        
+        async function submitSignOff() {
+            const initials = document.getElementById('reviewerInitials').value.trim();
+            
+            const response = await fetch('/api/signoff', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    case_id: currentCaseId,
+                    reviewer_initials: initials
+                })
+            });
+            
+            const result = await response.json();
+            alert(result.message);
+        }
+    </script>
+</body>
+</html>

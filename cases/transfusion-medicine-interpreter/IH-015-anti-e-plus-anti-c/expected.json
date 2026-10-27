@@ -1,0 +1,9 @@
+{
+  "case_id": "IH-015",
+  "expected_panel_status": "ok",
+  "expected_antibodies": ["E", "c"],
+  "expected_confidence": "moderate",
+  "expected_flags": ["multiple"],
+  "expected_compatible_units_antigen_negative": ["E", "c"],
+  "notes": "Multiple antibody case - should route to Ultra tier"
+}
