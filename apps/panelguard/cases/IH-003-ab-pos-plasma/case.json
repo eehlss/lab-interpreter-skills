@@ -1,0 +1,20 @@
+{
+  "case_id": "IH-003",
+  "patient_id": "SYN-PAT-003",
+  "description": "AB Pos plasma selection",
+  "date": "2099-07-05",
+  "patient_abo": "AB",
+  "patient_rh": "Pos",
+  "patient_age": 55,
+  "patient_sex": "male",
+  "clinical_context": "plasma_transfusion",
+  "forward_typing": {"anti_a": "4+", "anti_b": "4+", "anti_d": "4+"},
+  "reverse_typing": {"a1_cells": "0", "b_cells": "0"},
+  "autocontrol": "0",
+  "panel_cells": [
+    {"cell_id": "1", "reaction": "0", "antigens": {"D": "+", "C": "+", "E": "0", "c": "0", "e": "+", "K": "0"}, "dosage": {}},
+    {"cell_id": "2", "reaction": "0", "antigens": {"D": "+", "C": "0", "E": "+", "c": "+", "e": "+", "K": "0"}, "dosage": {}},
+    {"cell_id": "3", "reaction": "0", "antigens": {"D": "0", "C": "0", "E": "0", "c": "+", "e": "+", "K": "0"}, "dosage": {}}
+  ],
+  "special_requirements": []
+}

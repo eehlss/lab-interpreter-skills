@@ -1,0 +1,8 @@
+{
+  "case_id": "IH-003",
+  "expected_blood_type": "AB Pos",
+  "expected_panel_status": "ok",
+  "expected_antibodies": [],
+  "expected_compatible_plasma": ["AB"],
+  "notes": "AB patients receive AB plasma only (no anti-A or anti-B in plasma)"
+}

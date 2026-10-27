@@ -1,0 +1,7 @@
+{
+  "case_id": "IH-004",
+  "expected_blood_type": null,
+  "expected_discrepancies": ["reverse_b_discrepancy: expected positive, got negative"],
+  "expected_flags": ["refer"],
+  "notes": "Weak reverse typing in elderly patient suggests hypogammaglobulinemia. Forward suggests A, reverse weak. Refer for resolution (incubate longer, test at room temp, repeat with fresh reagents)."
+}

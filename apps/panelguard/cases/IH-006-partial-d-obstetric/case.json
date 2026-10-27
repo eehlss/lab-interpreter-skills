@@ -1,0 +1,24 @@
+{
+  "case_id": "IH-006",
+  "patient_id": "SYN-PAT-006",
+  "description": "Partial D obstetric patient",
+  "date": "2099-10-01",
+  "patient_abo": "O",
+  "patient_rh": "Neg",
+  "patient_age": 29,
+  "patient_sex": "female",
+  "clinical_context": "obstetric_partial_d",
+  "forward_typing": {
+    "anti_a": "0",
+    "anti_b": "0",
+    "anti_d": "w+"
+  },
+  "reverse_typing": {
+    "a1_cells": "4+",
+    "b_cells": "4+"
+  },
+  "autocontrol": "0",
+  "panel_cells": [],
+  "special_requirements": [],
+  "partial_d": true
+}

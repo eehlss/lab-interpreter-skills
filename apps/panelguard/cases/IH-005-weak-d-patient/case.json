@@ -1,0 +1,23 @@
+{
+  "case_id": "IH-005",
+  "patient_id": "SYN-PAT-005",
+  "description": "Weak D patient - treat as D-positive",
+  "date": "2099-09-10",
+  "patient_abo": "A",
+  "patient_rh": "Pos",
+  "patient_age": 45,
+  "patient_sex": "male",
+  "clinical_context": "weak_d_detected",
+  "forward_typing": {
+    "anti_a": "4+",
+    "anti_b": "0",
+    "anti_d": "w+"
+  },
+  "reverse_typing": {
+    "a1_cells": "0",
+    "b_cells": "4+"
+  },
+  "autocontrol": "0",
+  "panel_cells": [],
+  "special_requirements": []
+}

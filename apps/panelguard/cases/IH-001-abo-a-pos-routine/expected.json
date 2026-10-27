@@ -1,0 +1,11 @@
+{
+  "case_id": "IH-001",
+  "expected_blood_type": "A Pos",
+  "expected_discrepancies": [],
+  "expected_panel_status": "ok",
+  "expected_antibodies": [],
+  "expected_compatible_abo": ["A", "O"],
+  "expected_rh_requirement": "Pos",
+  "expected_flags": [],
+  "notes": "Routine case with negative screen"
+}
