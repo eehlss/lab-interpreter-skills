@@ -1,6 +1,0 @@
-{
-  "case_id": "IH-005",
-  "expected_blood_type": "A Pos",
-  "expected_rh_requirement": "Pos",
-  "notes": "Weak D patients are treated as D-positive for transfusion"
-}

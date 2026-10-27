@@ -1,0 +1,10 @@
+{
+  "case_id": "IH-026",
+  "expected_antibodies": [],
+  "expected_flags": [
+    "Multiple antibodies",
+    "No compatible units in inventory - contact reference laboratory"
+  ],
+  "notes": "Only 3+/2- cells; need 3+/3- minimum. With insufficient cells, cannot confidently identify all 4 antibodies.",
+  "expected_panel_status": "insufficient_cells"
+}

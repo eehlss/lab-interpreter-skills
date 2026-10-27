@@ -1,0 +1,7 @@
+{
+  "case_id": "IH-020",
+  "expected_dat_positive": true,
+  "expected_dat_pattern": "C3d_only",
+  "expected_workup": "cold_agglutinin_disease",
+  "notes": "CAD: DAT C3d+, reactive RT/IS, negative 37C. Test thermal range and titre."
+}

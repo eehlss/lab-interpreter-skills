@@ -3,6 +3,7 @@ Test that all 30 shipped synthetic cases pass PHI guard and analyze end-to-end.
 """
 
 import json
+import filecmp
 from pathlib import Path
 from fastapi.testclient import TestClient
 import sys
@@ -126,3 +127,41 @@ def test_case_id_without_syn_or_ih_fails_phi_guard():
     
     assert not is_safe, "Non-synthetic case_id should fail PHI guard"
     assert any("case_id" in v for v in violations), "Should have case_id violation"
+
+
+def test_vendored_cases_match_repo_cases():
+    """Test that vendored cases/ in apps/panelguard match top-level cases/."""
+    repo_cases = Path(__file__).parent.parent.parent.parent / "cases" / "transfusion-medicine-interpreter"
+    vendored_cases = Path(__file__).parent.parent / "cases" / "transfusion-medicine-interpreter"
+    
+    # Both should exist
+    assert repo_cases.exists(), f"Repo cases not found: {repo_cases}"
+    assert vendored_cases.exists(), f"Vendored cases not found: {vendored_cases}"
+    
+    # Get all case directories
+    repo_case_dirs = sorted([d.name for d in repo_cases.iterdir() if d.is_dir() and d.name.startswith("IH-")])
+    vendored_case_dirs = sorted([d.name for d in vendored_cases.iterdir() if d.is_dir() and d.name.startswith("IH-")])
+    
+    # Should have same case directories
+    assert repo_case_dirs == vendored_case_dirs, \
+        f"Case directories mismatch: repo={len(repo_case_dirs)}, vendored={len(vendored_case_dirs)}"
+    
+    # Check each case's files are identical
+    mismatches = []
+    for case_dir_name in repo_case_dirs:
+        repo_case_dir = repo_cases / case_dir_name
+        vendored_case_dir = vendored_cases / case_dir_name
+        
+        for filename in ["case.json", "expected.json", "README.md"]:
+            repo_file = repo_case_dir / filename
+            vendored_file = vendored_case_dir / filename
+            
+            if repo_file.exists() and vendored_file.exists():
+                if not filecmp.cmp(repo_file, vendored_file, shallow=False):
+                    mismatches.append(f"{case_dir_name}/{filename}")
+            elif repo_file.exists() != vendored_file.exists():
+                mismatches.append(f"{case_dir_name}/{filename} (missing in one location)")
+    
+    assert not mismatches, \
+        f"Vendored cases out of sync with repo cases. Mismatches: {mismatches}. " \
+        f"Run: cp -r cases/transfusion-medicine-interpreter apps/panelguard/cases/"

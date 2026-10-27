@@ -1,9 +1,0 @@
-{
-  "case_id": "IH-002",
-  "expected_blood_type": "O Neg",
-  "expected_panel_status": "ok",
-  "expected_antibodies": [],
-  "expected_rh_requirement": "Neg_only",
-  "expected_flags": ["D-negative female under 50: D-negative units required"],
-  "notes": "Female under 50, D-negative: must receive D-negative to prevent alloimmunization"
-}

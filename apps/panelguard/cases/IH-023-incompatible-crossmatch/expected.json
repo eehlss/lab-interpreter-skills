@@ -1,0 +1,10 @@
+{
+  "case_id": "IH-023",
+  "expected_panel_status": "ok",
+  "expected_antibodies": [],
+  "expected_flags": [
+    "Incompatible crossmatch with negative screen: possible low-frequency antigen",
+    "Test additional donor units"
+  ],
+  "notes": "Negative screen but incompatible crossmatch suggests low-frequency antigen (e.g., Kpa, V, Cw). Test more units."
+}
