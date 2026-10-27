@@ -1,0 +1,170 @@
+[
+  {
+    "unit_id": "SYN-RBC-001",
+    "abo": "O",
+    "rh": "Pos",
+    "phenotype": {
+      "D": "+", "C": "+", "E": "0", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "+", "Fyb": "0",
+      "Jka": "+", "Jkb": "+",
+      "S": "0", "s": "+", "M": "+", "N": "+"
+    },
+    "attributes": ["leukoreduced"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-002",
+    "abo": "O",
+    "rh": "Neg",
+    "phenotype": {
+      "D": "0", "C": "0", "E": "0", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "+", "Fyb": "+",
+      "Jka": "0", "Jkb": "+",
+      "S": "0", "s": "+", "M": "+", "N": "0"
+    },
+    "attributes": ["leukoreduced", "cmv_negative"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-003",
+    "abo": "A",
+    "rh": "Pos",
+    "phenotype": {
+      "D": "+", "C": "+", "E": "+", "c": "0", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "0", "Fyb": "+",
+      "Jka": "+", "Jkb": "0",
+      "S": "+", "s": "0", "M": "+", "N": "+"
+    },
+    "attributes": ["leukoreduced"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-004",
+    "abo": "A",
+    "rh": "Neg",
+    "phenotype": {
+      "D": "0", "C": "0", "E": "0", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "+", "Fyb": "0",
+      "Jka": "+", "Jkb": "+",
+      "S": "0", "s": "+", "M": "0", "N": "+"
+    },
+    "attributes": ["leukoreduced", "irradiated"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-005",
+    "abo": "B",
+    "rh": "Pos",
+    "phenotype": {
+      "D": "+", "C": "0", "E": "0", "c": "+", "e": "+",
+      "K": "+", "k": "+",
+      "Fya": "+", "Fyb": "+",
+      "Jka": "+", "Jkb": "0",
+      "S": "+", "s": "+", "M": "+", "N": "0"
+    },
+    "attributes": ["leukoreduced"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-006",
+    "abo": "O",
+    "rh": "Pos",
+    "phenotype": {
+      "D": "+", "C": "0", "E": "0", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "0", "Fyb": "+",
+      "Jka": "+", "Jkb": "+",
+      "S": "0", "s": "+", "M": "+", "N": "+"
+    },
+    "attributes": ["leukoreduced", "cmv_negative"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-007",
+    "abo": "O",
+    "rh": "Neg",
+    "phenotype": {
+      "D": "0", "C": "0", "E": "0", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "0", "Fyb": "+",
+      "Jka": "0", "Jkb": "+",
+      "S": "0", "s": "+", "M": "0", "N": "+"
+    },
+    "attributes": ["leukoreduced", "cmv_negative", "irradiated"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-008",
+    "abo": "A",
+    "rh": "Pos",
+    "phenotype": {
+      "D": "+", "C": "+", "E": "0", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "+", "Fyb": "+",
+      "Jka": "+", "Jkb": "+",
+      "S": "+", "s": "+", "M": "+", "N": "+"
+    },
+    "attributes": ["leukoreduced"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-009",
+    "abo": "AB",
+    "rh": "Pos",
+    "phenotype": {
+      "D": "+", "C": "+", "E": "+", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "+", "Fyb": "0",
+      "Jka": "0", "Jkb": "+",
+      "S": "0", "s": "+", "M": "+", "N": "0"
+    },
+    "attributes": ["leukoreduced"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-010",
+    "abo": "O",
+    "rh": "Pos",
+    "phenotype": {
+      "D": "+", "C": "0", "E": "+", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "+", "Fyb": "0",
+      "Jka": "+", "Jkb": "0",
+      "S": "+", "s": "+", "M": "+", "N": "+"
+    },
+    "attributes": ["leukoreduced", "hbs_negative"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-011",
+    "abo": "O",
+    "rh": "Neg",
+    "phenotype": {
+      "D": "0", "C": "0", "E": "0", "c": "+", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "+", "Fyb": "+",
+      "Jka": "+", "Jkb": "+",
+      "S": "0", "s": "+", "M": "+", "N": "+"
+    },
+    "attributes": ["leukoreduced", "cmv_negative"],
+    "expiry": "2099-12-31"
+  },
+  {
+    "unit_id": "SYN-RBC-012",
+    "abo": "A",
+    "rh": "Pos",
+    "phenotype": {
+      "D": "+", "C": "+", "E": "0", "c": "0", "e": "+",
+      "K": "0", "k": "+",
+      "Fya": "0", "Fyb": "+",
+      "Jka": "0", "Jkb": "+",
+      "S": "0", "s": "+", "M": "+", "N": "0"
+    },
+    "attributes": ["leukoreduced", "irradiated"],
+    "expiry": "2099-12-31"
+  }
+]

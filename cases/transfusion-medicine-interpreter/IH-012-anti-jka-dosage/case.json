@@ -1,0 +1,109 @@
+{
+  "case_id": "IH-012",
+  "patient_id": "SYN-PAT-012",
+  "date": "2099-02-20",
+  "patient_abo": "O",
+  "patient_rh": "Pos",
+  "patient_age": 55,
+  "patient_sex": "male",
+  "clinical_context": "delayed_transfusion_reaction",
+  "autocontrol": "0",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "c": "0",
+        "e": "+",
+        "K": "0",
+        "Jka": "+",
+        "Jkb": "0"
+      },
+      "dosage": {
+        "Jka": "homozygous"
+      }
+    },
+    {
+      "cell_id": "2",
+      "reaction": "0",
+      "antigens": {
+        "D": "+",
+        "C": "0",
+        "E": "+",
+        "c": "+",
+        "e": "+",
+        "K": "0",
+        "Jka": "0",
+        "Jkb": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "3",
+      "reaction": "2+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "c": "+",
+        "e": "+",
+        "K": "0",
+        "Jka": "+",
+        "Jkb": "+"
+      },
+      "dosage": {
+        "Jka": "heterozygous"
+      }
+    },
+    {
+      "cell_id": "4",
+      "reaction": "0",
+      "antigens": {
+        "D": "+",
+        "C": "0",
+        "E": "0",
+        "c": "+",
+        "e": "+",
+        "K": "0",
+        "Jka": "0",
+        "Jkb": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "5",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "+",
+        "c": "0",
+        "e": "+",
+        "K": "0",
+        "Jka": "+",
+        "Jkb": "0"
+      },
+      "dosage": {
+        "Jka": "homozygous"
+      }
+    },
+    {
+      "cell_id": "6",
+      "reaction": "0",
+      "antigens": {
+        "D": "0",
+        "C": "0",
+        "E": "0",
+        "c": "+",
+        "e": "+",
+        "K": "0",
+        "Jka": "0",
+        "Jkb": "+"
+      },
+      "dosage": {}
+    }
+  ]
+}

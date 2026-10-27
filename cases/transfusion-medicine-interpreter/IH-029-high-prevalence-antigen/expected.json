@@ -1,0 +1,13 @@
+{
+  "case_id": "IH-029",
+  "expected_flags": [
+    "High-prevalence antigen pattern - refer to reference laboratory"
+  ],
+  "expected_ruled_out": [
+    "D",
+    "C",
+    "E",
+    "K"
+  ],
+  "notes": "All cells reactive, autocontrol negative: suggests high-prevalence antigen (e.g., Vel, Lan). Refer to reference lab."
+}

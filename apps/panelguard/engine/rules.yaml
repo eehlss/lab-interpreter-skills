@@ -1,0 +1,90 @@
+# PanelGuard Rules Engine Configuration
+# Research and decision-support only - not for clinical use
+
+abo_compatibility:
+  rbc:
+    # Red cell transfusion: patient receives RBCs
+    O: [O]
+    A: [A, O]
+    B: [B, O]
+    AB: [AB, A, B, O]
+  
+  plasma:
+    # Plasma/FFP transfusion: patient receives plasma
+    O: [O, A, B, AB]
+    A: [A, AB]
+    B: [B, AB]
+    AB: [AB]
+  
+  platelets:
+    # Platelet transfusion: ABO-identical preferred, but compatible plasma allowed
+    O: [O, A, B, AB]  # O patients can receive any ABO platelets (small plasma volume)
+    A: [A, AB]
+    B: [B, AB]
+    AB: [AB]
+
+rh_rules:
+  # D-negative females under 50 always receive D-negative
+  female_under_50_dneg_only: true
+  # Partial D treated as D-negative for transfusion
+  partial_d_as_negative: true
+
+dosage_antigens:
+  # Antigens requiring homozygous cells for reliable rule-out
+  - C
+  - c
+  - E
+  - e
+  - M
+  - N
+  - S
+  - s
+  - Fya
+  - Fyb
+  - Jka
+  - Jkb
+
+rule_of_three:
+  # Statistical significance thresholds
+  min_positive: 3
+  min_negative: 3
+  high_confidence_pos: 5
+  high_confidence_neg: 5
+  probability_3plus3minus: 0.05
+  probability_5plus5minus: 0.01
+
+special_populations:
+  sickle_cell:
+    # Extended matching requirements
+    required_match: [C, c, E, e, K]
+    preferred_match: [Fya, Jka, S]
+  
+  obstetric:
+    # D-negative females
+    max_age_for_rhig: 50
+    critical_antibodies: [D, c, K, E, Fya, Jka]
+
+complex_case_triggers:
+  # Route to hard tier (Ultra model) when any of these conditions are met
+  - positive_autocontrol
+  - multiple_antibodies
+  - insufficient_cells
+  - positive_dat
+  - special_population
+
+clinically_significant_antibodies:
+  # IgG antibodies causing hemolytic transfusion reactions or HDFN
+  rh: [D, C, c, E, e, G]
+  kell: [K, k, Kpa, Kpb, Jsa, Jsb]
+  duffy: [Fya, Fyb]
+  kidd: [Jka, Jkb]
+  mns: [M, N, S, s, U]
+  lewis: []  # Usually IgM, not clinically significant at 37C
+  other: [Lua, Kpb, Dia, Dib]
+
+clinically_insignificant_antibodies:
+  # Typically IgM, react at IS/RT only
+  - Lea
+  - Leb
+  - P1
+  - M_cold  # M reactive only at IS/RT

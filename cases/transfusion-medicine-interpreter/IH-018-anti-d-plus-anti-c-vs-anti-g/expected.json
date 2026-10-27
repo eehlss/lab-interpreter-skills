@@ -1,0 +1,8 @@
+{
+  "case_id": "IH-018",
+  "expected_flags": [
+    "Pattern suggests anti-D or anti-D+C or anti-G",
+    "Refer for differential adsorption"
+  ],
+  "notes": "Anti-G mimics anti-D+C. Needs differential adsorption with D+C+ and D+C- cells. Refer to reference lab."
+}

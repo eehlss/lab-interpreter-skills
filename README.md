@@ -1,116 +1,212 @@
 > **Research Purpose Only.** This material is a research and decision-support resource. It is not a validated or approved medical device, and its output must not be the sole basis for any clinical decision; all results require review by a qualified professional.
 
-# Lab Interpreter Skills
+# Lab Interpreter Skills + PanelGuard
 
-This repository bundles four clinical laboratory interpretation skills designed for Claude-based workflows.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![CI](https://github.com/eehlss/lab-interpreter-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/eehlss/lab-interpreter-skills/actions/workflows/ci.yml)
 
-Each subfolder contains:
-- `SKILL.md`: the actual skill logic and behavior
-- `README.md`: detailed domain-specific guidance and examples
+Medical laboratory interpretation skills for Claude AI, plus **PanelGuard**: a blood bank copilot built for the [Nebius x NVIDIA Global AI Hackathon](https://nebius-nvidia-ai-hackathon.devpost.com/).
 
-## Subfolder Structure Summary
+---
 
-| Subfolder | Skill Focus | What It Interprets | Typical Output |
-|---|---|---|---|
-| `sysmex-xn-cbc-interpreter-skill/` | Hematology CBC interpretation | Sysmex XN-series CBC printouts, flags, scattergrams/histograms | CBC parameter analysis, flag interpretation, blood film decision, QC checks, action plan |
-| `hb-interpreter-skill/` | Hemoglobinopathy interpretation | Bio-Rad HPLC and Sebia CZE hemoglobin fraction studies + CBC context | Hb fraction analysis, CBC discriminant indices, thalassemia/variant differential, confirmatory plan |
-| `chemistry-hormone-interpreter-skill/` | Clinical chemistry and endocrine interpretation | Chemistry panels (renal/liver/metabolic/iron/cardiac/inflammatory) and hormone panels (thyroid/adrenal/reproductive/bone/B12-folate) | Critical-value triage, organ-system interpretation, differential diagnosis, integrated action plan |
-| `immunohaematology-interpreter-skill/` | Transfusion medicine and blood bank support | Antibody screens/panels, DAT/IAT, ABO/Rh typing, crossmatch workups | Antibody identification workflow, compatibility guidance, blood product recommendation, transfusion safety actions |
+## 🩸 PanelGuard: Blood Bank Copilot
 
-## Detailed Summary by Subfolder
+**Track:** Best Apps and Agents | **Demo:** TBD | **Video:** TBD | **Devpost:** TBD
 
-### 1) `sysmex-xn-cbc-interpreter-skill/`
-- Domain: Routine and complex CBC interpretation from Sysmex XN analyzers.
-- Strengths: Interprets WBC/RBC/PLT flags, channel/scattergram patterns, and blood film escalation needs.
-- Inputs usually needed: Result image, patient age, biological sex, clinical context.
-- Best for: Fast triage of abnormal CBCs and standardized analyzer troubleshooting.
+PanelGuard turns antibody panel workups into reviewed, explained recommendations in under a minute. **Deterministic blood-bank rules make every safety decision.** NVIDIA Nemotron models on Nebius Token Factory read inputs, reason about hard cases, and explain every step.
 
-### 2) `hb-interpreter-skill/`
-- Domain: Hemoglobinopathy and microcytic anemia differentiation.
-- Strengths: Correlates Bio-Rad HPLC and Sebia CZE findings with RBC indices and discriminant formulas.
-- Inputs usually needed: HPLC/CZE report image, age, sex, complete CBC indices (plus iron studies when available).
-- Best for: Distinguishing beta-thal trait, alpha-thal patterns, Hb variants, and iron deficiency overlap.
+### Quick Start
 
-### 3) `chemistry-hormone-interpreter-skill/`
-- Domain: Broad chemistry plus hormone interpretation framework.
-- Strengths: Multi-system interpretation (renal, liver, metabolic, cardiac, endocrine, fertility, bone, inflammation, haematinics), critical-value handling, and clinical prioritization.
-- Inputs usually needed: Chemistry/hormone values or image, age, sex, context (and cycle day/time/fasting for hormone relevance).
-- Best for: Comprehensive biochemistry interpretation with high-structure reporting.
+**macOS / Linux:**
 
-### 4) `immunohaematology-interpreter-skill/`
-- Domain: Blood bank and transfusion medicine decision support.
-- Strengths: Antibody screen/panel reasoning, DAT/IAT interpretation, ABO/Rh discrepancy pathways, crossmatch and compatible unit selection.
-- Inputs usually needed: Panel/crossmatch image, ABO/Rh type, age/sex, clinical/transfusion history, autocontrol.
-- Best for: Complex pre-transfusion workups and immunohematology safety workflows.
+```bash
+git clone https://github.com/eehlss/lab-interpreter-skills.git
+cd lab-interpreter-skills
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r apps/panelguard/requirements.txt
+export NEBIUS_API_KEY=<your-key>
+export TAVILY_API_KEY=<your-key>
+pytest apps/panelguard/tests/ -v
+uvicorn app.main:app --app-dir apps/panelguard --host 0.0.0.0 --port 8080
+```
 
-## How To Use These Skills In Claude Code
+**Windows (cmd - single-line commands):**
 
-Claude Code can load skills from a `.claude/skills/` directory. The important file is `SKILL.md` inside each skill folder.
+```cmd
+git clone https://github.com/eehlss/lab-interpreter-skills.git && cd lab-interpreter-skills
+python -m venv .venv && call .venv\Scripts\activate.bat && pip install -r apps\panelguard\requirements.txt
+set NEBIUS_API_KEY=<your-key>
+set TAVILY_API_KEY=<your-key>
+pytest apps\panelguard\tests\ -v
+python -m uvicorn app.main:app --app-dir apps\panelguard --host 127.0.0.1 --port 8080
+```
 
-### Option A: Install Per Project (recommended)
+See [full setup documentation](#panelguard-setup) below.
 
-From this repository root:
+### What Was Added During Hackathon (26 Aug – 30 Oct 2026)
+
+Repository created April 2026 with Claude skills only. Added during submission period:
+
+1. **PanelGuard app** with deterministic engine (ABO, panel, units) + NVIDIA Nemotron integration
+2. Tiered routing: Lightning (extract), Super VL (explain), Ultra (complex reasoning)
+3. Verifier blocking LLM contradictions, PHI guard, rate caps, human sign-off
+4. Synthetic cases, pytest suite, eval harness, GitHub Actions CI
+5. MIT LICENSE and Cloud Run deployment config
+
+See [detailed summary](#what-was-significantly-updated) below.
+
+---
+
+## Claude AI Skills (Pre-Hackathon Content)
+
+| Skill | Focus | Interprets |
+|-------|-------|------------|
+| `sysmex-xn-cbc-interpreter-skill/` | Hematology CBC | Sysmex XN printouts, flags, scattergrams |
+| `hb-interpreter-skill/` | Hemoglobinopathy | Bio-Rad HPLC, Sebia CZE |
+| `chemistry-hormone-interpreter-skill/` | Chemistry + endocrine | Renal, liver, metabolic, thyroid, adrenal panels |
+| `immunohaematology-interpreter-skill/` | Transfusion medicine | Antibody panels, DAT, ABO/Rh, crossmatch |
+
+**Install for Claude Code:**
 
 ```bash
 mkdir -p .claude/skills
-cp -R sysmex-xn-cbc-interpreter-skill .claude/skills/
-cp -R hb-interpreter-skill .claude/skills/
-cp -R chemistry-hormone-interpreter-skill .claude/skills/
-cp -R immunohaematology-interpreter-skill .claude/skills/
+cp -R *-interpreter-skill .claude/skills/
 ```
 
-After this, open Claude Code in this project and prompt naturally, for example:
-- "Interpret this Sysmex XN CBC printout"
-- "Interpret this Hb HPLC/CZE result"
-- "Interpret this chemistry and hormone panel"
-- "Interpret this antibody panel and crossmatch"
+---
 
-### Option B: Install For Your User (all projects on your PC)
+<a name="panelguard-setup"></a>
+## PanelGuard: Full Setup & Architecture
 
-If your Claude Code setup supports a user-level `.claude/skills/` location, copy the same four folders there once, then reuse everywhere.
+### How We Use NVIDIA Nemotron on Nebius Token Factory
 
-macOS/Linux example:
+| Model | Role | Cost/1M (in/out) |
+|-------|------|------------------|
+| `nvidia/Nemotron-3_5-Lightning` | Extraction, verifier | $0.06 / $0.24 |
+| `nvidia/Nemotron-3.5-Super-VL` | Explanations | $0.30 / $0.90 |
+| `nvidia/Nemotron-3-Ultra-550b-a55b` | Complex reasoning | $1.00 / $3.00 |
 
+**Why tiered?** Most cases cost ~$0.003. Complex cases ~$0.018. Average ~$0.01/case.
+
+**Token Factory advantages:** One OpenAI-compatible endpoint, cached-token pricing, model catalog with prices, playground.
+
+### Architecture
+
+```
+UI → FastAPI (PHI guard) → 
+  Extract (Lightning) → 
+  Engine (deterministic rules) → 
+  Explain (Super VL) or Reason (Ultra) → 
+  Verifier (blocks contradictions) → 
+  Report + Human Sign-Off
+```
+
+**Key decisions:** Engine decides (deterministic Python), LLMs explain. Verifier diffs output vs engine. Humans release.
+
+### Services
+
+- **Tavily:** Evidence lookup (antibody name only)
+- **LangSmith:** Tracing, evals
+- **Cloud Run:** Demo hosting (us-central1, min 0 / max 1)
+- **GitHub Actions:** CI (pytest + gitleaks)
+
+### Running Tests
+
+**macOS / Linux:**
 ```bash
-mkdir -p ~/.claude/skills
-cp -R sysmex-xn-cbc-interpreter-skill ~/.claude/skills/
-cp -R hb-interpreter-skill ~/.claude/skills/
-cp -R chemistry-hormone-interpreter-skill ~/.claude/skills/
-cp -R immunohaematology-interpreter-skill ~/.claude/skills/
+cd apps/panelguard
+pytest tests/ -v
 ```
 
-Windows PowerShell example:
-
-```powershell
-New-Item -ItemType Directory -Force "$HOME\.claude\skills" | Out-Null
-Copy-Item -Recurse -Force .\sysmex-xn-cbc-interpreter-skill "$HOME\.claude\skills\"
-Copy-Item -Recurse -Force .\hb-interpreter-skill "$HOME\.claude\skills\"
-Copy-Item -Recurse -Force .\chemistry-hormone-interpreter-skill "$HOME\.claude\skills\"
-Copy-Item -Recurse -Force .\immunohaematology-interpreter-skill "$HOME\.claude\skills\"
+**Windows (cmd):**
+```cmd
+cd apps\panelguard && pytest tests\ -v
 ```
 
-## Running Locally On Any PC With Claude Code Installed
+### Running Eval
 
-1. Install Claude Code and complete sign-in/authentication.
-2. Clone or copy this repository to the PC.
-3. Place skill folders in either project `.claude/skills/` or user `~/.claude/skills/`.
-4. Start Claude Code from the repository (or any project if using user-level install).
-5. Provide:
-   - a clear lab result image or typed values
-   - required patient context (age/sex and domain-specific metadata)
-6. Use targeted prompts to trigger the relevant skill.
+**macOS / Linux:**
+```bash
+python eval/run_eval.py --cases cases/transfusion-medicine-interpreter --runs 3 --out eval/RESULTS.md
+```
 
-## Recommended Prompt Templates
+**Windows (cmd):**
+```cmd
+python eval\run_eval.py --cases cases\transfusion-medicine-interpreter --runs 3 --out eval\RESULTS.md
+```
 
-- CBC:
-  - "Interpret this Sysmex XN CBC. Patient: 42M. Context: fatigue. QC passed today."
-- Hemoglobinopathy:
-  - "Interpret this HPLC/CZE result and correlate with CBC for thalassemia vs IDA."
-- Chemistry/Hormone:
-  - "Interpret this chemistry and hormone panel. Patient: 33F, fasting, sample at 08:30, cycle day 3."
-- Immunohaematology:
-  - "Interpret this antibody panel and suggest compatible blood products. Autocontrol is negative."
+**Gates:** 0 unsafe recommendations, 100% panel status accuracy, ≥90% antibody ID.
 
-## Safety Note
+### Deploy to Cloud Run
 
-These skills are clinical decision-support aids, not a replacement for licensed clinical judgment. Final interpretation and patient-management decisions must be validated by qualified laboratory and clinical professionals.
+**macOS / Linux:**
+```bash
+gcloud config set project echukwuka-435611
+gcloud secrets create nebius-api-key --replication-policy=automatic
+echo -n "<key>" | gcloud secrets versions add nebius-api-key --data-file=-
+gcloud secrets create tavily-api-key --replication-policy=automatic
+echo -n "<key>" | gcloud secrets versions add tavily-api-key --data-file=-
+
+gcloud run deploy panelguard \
+  --source apps/panelguard \
+  --region us-central1 \
+  --min-instances 0 \
+  --max-instances 1 \
+  --memory 512Mi \
+  --set-secrets NEBIUS_API_KEY=nebius-api-key:latest,TAVILY_API_KEY=tavily-api-key:latest \
+  --set-env-vars LIVE_DAILY_CAP=40,MODEL_FAST=nvidia/Nemotron-3_5-Lightning,MODEL_MID=nvidia/Nemotron-3.5-Super-VL,MODEL_REASON=nvidia/Nemotron-3-Ultra-550b-a55b
+```
+
+**Windows (cmd - use PowerShell for echo or type keys into file):**
+```cmd
+gcloud config set project echukwuka-435611
+gcloud secrets create nebius-api-key --replication-policy=automatic
+echo|set /p="<key>" | gcloud secrets versions add nebius-api-key --data-file=-
+gcloud secrets create tavily-api-key --replication-policy=automatic
+echo|set /p="<key>" | gcloud secrets versions add tavily-api-key --data-file=-
+gcloud run deploy panelguard --source apps\panelguard --region us-central1 --min-instances 0 --max-instances 1 --memory 512Mi --set-secrets NEBIUS_API_KEY=nebius-api-key:latest,TAVILY_API_KEY=tavily-api-key:latest --set-env-vars LIVE_DAILY_CAP=40,MODEL_FAST=nvidia/Nemotron-3_5-Lightning,MODEL_MID=nvidia/Nemotron-3.5-Super-VL,MODEL_REASON=nvidia/Nemotron-3-Ultra-550b-a55b
+```
+
+### Repo Layout
+
+```
+apps/panelguard/       FastAPI app, engines, agents, UI
+cases/                 Synthetic cases (IH-001, IH-008, IH-015, IH-027+)
+eval/                  Evaluation harness
+.github/workflows/     CI
+immunohaematology-interpreter-skill/  Source of clinical rules
+LICENSE                MIT (added Oct 2026)
+```
+
+### Limitations
+
+- **Research only. Not a medical device.**
+- All outputs need review by qualified professional
+- Complex cases refer to reference lab
+- CBAHI-regulated settings need Biomedical Scientist sign-off
+
+<a name="what-was-significantly-updated"></a>
+### What Was Significantly Updated (26 Aug – 30 Oct 2026)
+
+Repo created April 2026 with Markdown skills only. **Added during hackathon:**
+
+1. **PanelGuard app** (`apps/panelguard`): FastAPI with deterministic engine (ABO/Rh compatibility, antibody rule-out/rule-in with dosage + 3+/3- logic, antigen-negative unit selection, DAT)
+2. **Nemotron integration**: Tiered routing (Lightning/Super VL/Ultra), JSON schemas, verifier blocking contradictions
+3. **Tools**: Tavily (antibody name only), LangSmith, PHI guard, rate caps, human sign-off
+4. **Cases**: Synthetic IH cases (partial: IH-001, 008, 015, 027), eval harness, pytest, GitHub Actions
+5. **Deployment**: Cloud Run config
+6. **License**: MIT added, README rewritten
+
+Earlier (Oct 2026): Clinical example replaced with synthetic data, research notices added.
+
+### License & Contact
+
+MIT License. Copyright (c) 2026 Emeka Patrick Chukwuka / ALAFIAAI. See [LICENSE](./LICENSE).
+
+**Contact:** Dr. Emeka Patrick Chukwuka (ALAFIAAI / EEHLSS)
+
+For clinical cases: consult Consultant Haematologist or Reference Laboratory.
+
+---
+
+*Research, education, and decision support. Not a replacement for human expertise.*

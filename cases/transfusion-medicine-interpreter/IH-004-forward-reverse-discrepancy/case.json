@@ -1,0 +1,16 @@
+{
+  "case_id": "IH-004",
+  "patient_id": "SYN-PAT-004",
+  "description": "Forward/reverse discrepancy - weak reverse in elderly",
+  "date": "2099-08-15",
+  "patient_abo": "A",
+  "patient_rh": "Pos",
+  "patient_age": 82,
+  "patient_sex": "female",
+  "clinical_context": "elderly_hypogammaglobulinemia",
+  "forward_typing": {"anti_a": "4+", "anti_b": "0", "anti_d": "4+"},
+  "reverse_typing": {"a1_cells": "0", "b_cells": "1+"},
+  "autocontrol": "0",
+  "panel_cells": [],
+  "special_requirements": []
+}
