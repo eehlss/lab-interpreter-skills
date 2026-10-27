@@ -78,14 +78,20 @@ def check_phi_violations(input_data: Dict) -> Tuple[bool, List[str]]:
     if re.search(r'\b[12]\d{9}\b', input_str):
         violations.append('National ID pattern detected: use synthetic data only')
     
-    # Check that any IDs present start with SYN-
-    id_fields = ['patient_id', 'case_id', 'sample_id', 'unit_id']
+    # Check that any IDs present start with SYN- or IH- (shipped synthetic cases)
+    id_fields = ['patient_id', 'sample_id', 'unit_id']
     
     for field in id_fields:
         if field in input_data:
             value = str(input_data[field])
             if not value.startswith('SYN-'):
                 violations.append(f'{field} must start with SYN- prefix')
+    
+    # case_id can be SYN- or IH- (shipped synthetic cases use IH- prefix)
+    if 'case_id' in input_data:
+        value = str(input_data['case_id'])
+        if not (value.startswith('SYN-') or value.startswith('IH-')):
+            violations.append(f'case_id must start with SYN- or IH- prefix')
     
     is_safe = len(violations) == 0
     
