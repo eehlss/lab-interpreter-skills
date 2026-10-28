@@ -1,0 +1,12 @@
+{
+  "case_id": "IH-028",
+  "expected_panel_status": "insufficient_cells",
+  "expected_candidates": [
+    "C",
+    "Fya"
+  ],
+  "expected_flags": [
+    "Insufficient cells for statistical confidence (need 3+/3-)"
+  ],
+  "notes": "Only 2+/2- pattern. Need minimum 3+/3- for p\u22480.05 confidence. Test more cells."
+}

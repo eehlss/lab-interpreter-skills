@@ -78,13 +78,25 @@ async def root():
 @app.get("/api/cases")
 async def list_cases():
     """List available preset cases."""
-    # Try /app/cases (Docker) first, then fall back to repo structure
-    cases_dir = Path("/app/cases/transfusion-medicine-interpreter")
-    if not cases_dir.exists():
-        cases_dir = Path(__file__).parent.parent.parent.parent / "cases" / "transfusion-medicine-interpreter"
+    # Try multiple paths:
+    # 1. /app/cases/transfusion-medicine-interpreter (Docker with WORKDIR /app, COPY . .)
+    # 2. <this_file>/../../cases/transfusion-medicine-interpreter (app/main.py -> apps/panelguard/cases/...)
+    # 3. Repo root cases/ (development from repo root)
     
-    if not cases_dir.exists():
-        return {"cases": []}
+    search_paths = [
+        Path("/app/cases/transfusion-medicine-interpreter"),
+        Path(__file__).parent.parent / "cases" / "transfusion-medicine-interpreter",
+        Path(__file__).parent.parent.parent.parent / "cases" / "transfusion-medicine-interpreter",
+    ]
+    
+    cases_dir = None
+    for path in search_paths:
+        if path.exists() and path.is_dir():
+            cases_dir = path
+            break
+    
+    if not cases_dir:
+        return {"cases": [], "error": "Cases directory not found", "searched": [str(p) for p in search_paths]}
     
     cases = []
     for case_dir in sorted(cases_dir.iterdir()):

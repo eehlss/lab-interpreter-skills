@@ -1,0 +1,9 @@
+{
+  "case_id": "IH-027",
+  "expected_panel_status": "positive_autocontrol",
+  "expected_flags": ["Positive autocontrol - route to DAT workup"],
+  "expected_dat_positive": true,
+  "expected_dat_pattern": "IgG_only",
+  "expected_workup": "warm_aiha",
+  "notes": "Should stop panel analysis and route to DAT workup. Complex case."
+}

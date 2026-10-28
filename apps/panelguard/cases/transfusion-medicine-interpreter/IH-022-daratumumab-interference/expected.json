@@ -1,0 +1,9 @@
+{
+  "case_id": "IH-022",
+  "expected_panel_status": "positive_autocontrol",
+  "expected_dat_positive": true,
+  "expected_flags": [
+    "Daratumumab interference: use DTT-treated cells for antibody detection"
+  ],
+  "notes": "Daratumumab binds CD38 on all RBCs causing panreactivity. Use DTT-treated cells to detect underlying antibodies."
+}

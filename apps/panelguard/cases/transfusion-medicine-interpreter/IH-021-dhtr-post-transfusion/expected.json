@@ -1,0 +1,7 @@
+{
+  "case_id": "IH-021",
+  "expected_antibodies": [],
+  "expected_dat_positive": true,
+  "notes": "Positive autocontrol (2+). Engine correctly routes to DAT workup. Antibody ID (Jka) requires autoadsorption or other advanced techniques.",
+  "expected_panel_status": "positive_autocontrol"
+}

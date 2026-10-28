@@ -1,0 +1,61 @@
+{
+  "case_id": "IH-028",
+  "patient_id": "SYN-PAT-028",
+  "date": "2099-03-20",
+  "patient_abo": "A",
+  "patient_rh": "Pos",
+  "patient_age": 50,
+  "patient_sex": "male",
+  "clinical_context": "possible_antibody_limited_panel",
+  "autocontrol": "0",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "3+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "K": "0",
+        "Fya": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "2",
+      "reaction": "2+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0",
+        "K": "0",
+        "Fya": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "3",
+      "reaction": "0",
+      "antigens": {
+        "D": "+",
+        "C": "0",
+        "E": "+",
+        "K": "0",
+        "Fya": "0"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "4",
+      "reaction": "0",
+      "antigens": {
+        "D": "0",
+        "C": "0",
+        "E": "0",
+        "K": "0",
+        "Fya": "0"
+      },
+      "dosage": {}
+    }
+  ]
+}

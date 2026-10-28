@@ -1,0 +1,12 @@
+{
+  "case_id": "IH-024",
+  "patient_id": "SYN-PAT-024",
+  "date": "2099-12-25",
+  "patient_abo": "unknown",
+  "patient_rh": "unknown",
+  "patient_age": 35,
+  "patient_sex": "female",
+  "clinical_context": "emergency_trauma_massive_hemorrhage",
+  "autocontrol": "not_performed",
+  "panel_cells": []
+}
