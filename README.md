@@ -11,7 +11,7 @@ Medical laboratory interpretation skills for Claude AI, plus **PanelGuard**: a b
 
 ## 🩸 PanelGuard: Blood Bank Copilot
 
-**Track:** Best Apps and Agents | **Demo:** TBD | **Video:** TBD | **Devpost:** TBD
+**Track:** Best Apps and Agents | **Demo:** https://panelguard-250296213348.us-central1.run.app | **Video:** TBD | **Devpost:** TBD
 
 PanelGuard turns antibody panel workups into reviewed, explained recommendations in under a minute. **Deterministic blood-bank rules make every safety decision.** NVIDIA Nemotron models on Nebius Token Factory read inputs, reason about hard cases, and explain every step.
 
