@@ -78,7 +78,10 @@ async def root():
 @app.get("/api/cases")
 async def list_cases():
     """List available preset cases."""
-    cases_dir = Path(__file__).parent.parent.parent.parent / "cases" / "transfusion-medicine-interpreter"
+    # Try /app/cases (Docker) first, then fall back to repo structure
+    cases_dir = Path("/app/cases/transfusion-medicine-interpreter")
+    if not cases_dir.exists():
+        cases_dir = Path(__file__).parent.parent.parent.parent / "cases" / "transfusion-medicine-interpreter"
     
     if not cases_dir.exists():
         return {"cases": []}

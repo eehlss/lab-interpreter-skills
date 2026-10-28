@@ -1,0 +1,21 @@
+{
+  "case_id": "IH-015",
+  "patient_id": "SYN-PAT-015",
+  "description": "Multiple antibodies: anti-E + anti-c",
+  "date": "2099-08-10",
+  "patient_abo": "A",
+  "patient_rh": "Pos",
+  "patient_age": 52,
+  "patient_sex": "female",
+  "clinical_context": "multiple_previous_transfusions",
+  "autocontrol": "0",
+  "panel_cells": [
+    {"cell_id": "1", "reaction": "4+", "antigens": {"D": "+", "C": "+", "E": "+", "c": "0", "e": "0", "K": "0"}, "dosage": {"C": "homozygous", "E": "homozygous"}},
+    {"cell_id": "2", "reaction": "4+", "antigens": {"D": "+", "C": "0", "E": "0", "c": "+", "e": "+", "K": "0"}, "dosage": {"c": "homozygous", "e": "homozygous"}},
+    {"cell_id": "3", "reaction": "4+", "antigens": {"D": "+", "C": "+", "E": "+", "c": "+", "e": "+", "K": "0"}, "dosage": {}},
+    {"cell_id": "4", "reaction": "0", "antigens": {"D": "+", "C": "+", "E": "0", "c": "0", "e": "+", "K": "0"}, "dosage": {"C": "homozygous", "e": "heterozygous"}},
+    {"cell_id": "5", "reaction": "4+", "antigens": {"D": "+", "C": "0", "E": "+", "c": "+", "e": "0", "K": "0"}, "dosage": {"E": "homozygous", "c": "homozygous"}},
+    {"cell_id": "6", "reaction": "0", "antigens": {"D": "+", "C": "+", "E": "0", "c": "0", "e": "+", "K": "+"},  "dosage": {}}
+  ],
+  "special_requirements": []
+}

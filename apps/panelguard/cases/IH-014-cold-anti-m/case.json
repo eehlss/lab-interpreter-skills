@@ -1,0 +1,49 @@
+{
+  "case_id": "IH-014",
+  "patient_id": "SYN-PAT-014",
+  "date": "2099-04-12",
+  "patient_abo": "B",
+  "patient_rh": "Pos",
+  "patient_age": 60,
+  "patient_sex": "male",
+  "clinical_context": "routine",
+  "autocontrol": "0",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "0",
+      "antigens": {
+        "M": "0",
+        "N": "+",
+        "S": "0",
+        "s": "+"
+      },
+      "dosage": {},
+      "phase": "AHG"
+    },
+    {
+      "cell_id": "2",
+      "reaction": "0",
+      "antigens": {
+        "M": "+",
+        "N": "0",
+        "S": "+",
+        "s": "0"
+      },
+      "dosage": {},
+      "phase": "AHG"
+    },
+    {
+      "cell_id": "3",
+      "reaction": "0",
+      "antigens": {
+        "M": "+",
+        "N": "+",
+        "S": "0",
+        "s": "+"
+      },
+      "dosage": {},
+      "phase": "AHG"
+    }
+  ]
+}

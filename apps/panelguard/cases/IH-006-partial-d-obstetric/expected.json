@@ -1,0 +1,9 @@
+{
+  "case_id": "IH-006",
+  "expected_blood_type": "O Neg (partial D)",
+  "expected_rh_requirement": "Neg_only",
+  "expected_flags": [
+    "Partial D: treat as D-negative, RhIG indicated"
+  ],
+  "notes": "Partial D in pregnancy: treat as D-negative, can form anti-D, needs RhIG"
+}
