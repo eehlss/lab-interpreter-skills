@@ -1,0 +1,12 @@
+{
+  "case_id": "IH-030",
+  "patient_id": "SYN-PAT-030",
+  "date": "2099-05-05",
+  "patient_abo": "A",
+  "patient_rh": "Pos",
+  "patient_age": null,
+  "patient_sex": null,
+  "clinical_context": "incomplete_data",
+  "autocontrol": null,
+  "panel_cells": []
+}

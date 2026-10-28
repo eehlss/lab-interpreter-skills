@@ -1,0 +1,46 @@
+{
+  "case_id": "IH-022",
+  "patient_id": "SYN-PAT-022",
+  "date": "2099-11-20",
+  "patient_abo": "B",
+  "patient_rh": "Pos",
+  "patient_age": 68,
+  "patient_sex": "female",
+  "clinical_context": "daratumumab_myeloma",
+  "autocontrol": "4+",
+  "panel_cells": [
+    {
+      "cell_id": "1",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "+",
+        "E": "0"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "2",
+      "reaction": "4+",
+      "antigens": {
+        "D": "+",
+        "C": "0",
+        "E": "+"
+      },
+      "dosage": {}
+    },
+    {
+      "cell_id": "3",
+      "reaction": "4+",
+      "antigens": {
+        "D": "0",
+        "C": "0",
+        "E": "0"
+      },
+      "dosage": {}
+    }
+  ],
+  "dat_polyspecific": "4+",
+  "dat_monospecific_igg": "4+",
+  "dat_monospecific_c3d": "0"
+}
