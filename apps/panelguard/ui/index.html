@@ -165,7 +165,7 @@
             
             // In a real app, fetch the case file
             // For now, show a placeholder
-            fetch(`/cases/transfusion-medicine-interpreter/${caseId}/case.json`)
+            fetch(`/api/cases/${caseId}`)
                 .then(r => r.json())
                 .then(data => {
                     document.getElementById('caseInput').value = JSON.stringify(data, null, 2);

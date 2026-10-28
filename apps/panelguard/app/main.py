@@ -5,6 +5,7 @@ Research and decision-support only - not for clinical use.
 
 import os
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, Optional
 from fastapi import FastAPI, HTTPException, Request
@@ -111,6 +112,55 @@ async def list_cases():
     return {"cases": cases}
 
 
+@app.get("/api/cases/{case_id}")
+async def get_case(case_id: str):
+    """
+    Get a specific preset case by ID.
+    Returns the case.json for the given case ID.
+    """
+    # Validate case_id to prevent path traversal
+    if not case_id.startswith("IH-") or "/" in case_id or "\\" in case_id or ".." in case_id:
+        raise HTTPException(status_code=400, detail="Invalid case ID format")
+    
+    # Find cases directory using same search paths as list_cases
+    search_paths = [
+        Path("/app/cases/transfusion-medicine-interpreter"),
+        Path(__file__).parent.parent / "cases" / "transfusion-medicine-interpreter",
+        Path(__file__).parent.parent.parent.parent / "cases" / "transfusion-medicine-interpreter",
+    ]
+    
+    cases_dir = None
+    for path in search_paths:
+        if path.exists() and path.is_dir():
+            cases_dir = path
+            break
+    
+    if not cases_dir:
+        raise HTTPException(status_code=500, detail="Cases directory not found")
+    
+    # Construct and validate case file path
+    case_file = cases_dir / case_id / "case.json"
+    
+    # Ensure the resolved path is still within cases_dir (defense in depth)
+    try:
+        case_file = case_file.resolve()
+        cases_dir = cases_dir.resolve()
+        if not str(case_file).startswith(str(cases_dir)):
+            raise HTTPException(status_code=400, detail="Invalid case ID")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid case ID")
+    
+    if not case_file.exists():
+        raise HTTPException(status_code=404, detail=f"Case {case_id} not found")
+    
+    try:
+        with open(case_file) as f:
+            case_data = json.load(f)
+        return case_data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error loading case: {str(e)}")
+
+
 @app.post("/api/analyze")
 async def analyze_case(request: Request):
     """
@@ -145,7 +195,7 @@ async def analyze_case(request: Request):
     
     # Rate limiting (basic)
     client_ip = request.client.host
-    today = str(Path(__file__).stat().st_mtime)[:10]  # Simple day key
+    today = datetime.now(timezone.utc).date().isoformat()  # UTC date key (YYYY-MM-DD)
     rate_key = f"{client_ip}:{today}"
     
     if rate_key not in request_counts:
@@ -219,27 +269,38 @@ async def analyze_case(request: Request):
         if dat_result['positive']:
             result['flags'].extend(dat_result.get('flags', []))
     
-    # Determine complexity
+    # Determine complexity and routing tier
     is_complex = False
-    if 'panel_analysis' in result:
-        is_complex = panel_engine.is_complex_case(
-            autocontrol=case_data.get('autocontrol', '0'),
-            num_candidates=len(result['panel_analysis'].get('candidates', [])),
-            positive_cells=result['panel_analysis'].get('positive_cells', 0),
-            negative_cells=result['panel_analysis'].get('negative_cells', 0),
-            dat_positive=result.get('dat', {}).get('positive', False),
-            special_population='sickle_cell' in case_data.get('special_requirements', [])
-        )
+    is_negative_screen = False
     
-    # LLM layer
+    if 'panel_analysis' in result:
+        panel_analysis = result['panel_analysis']
+        positive_cells = panel_analysis.get('positive_cells', 0)
+        autocontrol_positive = case_data.get('autocontrol', '0') != '0'
+        
+        # Negative screen: no positive cells and negative autocontrol
+        is_negative_screen = (positive_cells == 0 and not autocontrol_positive)
+        
+        # Complex case logic (but negative screens are never complex)
+        if not is_negative_screen:
+            is_complex = panel_engine.is_complex_case(
+                autocontrol=case_data.get('autocontrol', '0'),
+                num_candidates=len(panel_analysis.get('candidates', [])),
+                positive_cells=positive_cells,
+                negative_cells=panel_analysis.get('negative_cells', 0),
+                dat_positive=result.get('dat', {}).get('positive', False),
+                special_population='sickle_cell' in case_data.get('special_requirements', [])
+            )
+    
+    # LLM layer routing
     if llm_client.is_available():
         if is_complex:
-            # Use Ultra for reasoning
+            # Use Ultra for complex reasoning
             llm_output = reason_complex_case(llm_client, result, case_data)
             result['reasoning'] = llm_output
             result['model_tier'] = 'Ultra'
         else:
-            # Use mid tier for explanation
+            # Use mid tier for routine explanations (including negative screens)
             llm_output = generate_explanation(llm_client, result, case_data)
             result['explanation'] = llm_output
             result['model_tier'] = 'mid'

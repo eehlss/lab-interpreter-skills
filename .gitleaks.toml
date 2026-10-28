@@ -1,0 +1,21 @@
+# Gitleaks configuration for PanelGuard
+# Allowlist for false positives: synthetic test data and public API endpoints
+
+[allowlist]
+description = "Allow synthetic test fixtures and public API URLs"
+
+# Synthetic patient/sample/unit IDs (SYN-PAT-xxx, SYN-SAMPLE-xxx, etc.)
+regexes = [
+  '''SYN-[A-Z]+-\d+''',  # Synthetic IDs in test cases
+  '''IH-\d+''',  # Internal case IDs
+]
+
+# Public API base URLs (not secrets)
+[[allowlist.paths]]
+description = "Nebius Token Factory public API endpoint"
+regex = '''https://api\.tokenfactory\.nebius\.com'''
+
+# Test fixtures and synthetic case data
+[[allowlist.paths]]
+description = "Synthetic test case files"
+regex = '''cases/transfusion-medicine-interpreter/.*/case\.json'''

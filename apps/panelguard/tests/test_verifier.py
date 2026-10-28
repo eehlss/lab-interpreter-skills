@@ -9,7 +9,7 @@ import sys
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from agents.verify import verify_llm_output, _extract_antibody_mentions
+from agents.verify import verify_llm_output, _extract_claimed_antibodies
 from agents.llm import NebiusClient
 
 
@@ -146,16 +146,31 @@ def test_verifier_requires_disclaimer():
 
 
 def test_extract_antibody_mentions():
-    """Test antibody name extraction."""
-    narrative = {
-        'text': 'Anti-K and anti-E identified. anti-c ruled out.'
+    """Test antibody claim extraction (positive claims only, not ruled-out mentions)."""
+    # Test positive claims
+    narrative_positive = {
+        'text': 'Anti-K identified and anti-E detected. Anti-c was ruled out and anti-D is negative.'
     }
     
-    mentions = _extract_antibody_mentions(narrative)
+    claims = _extract_claimed_antibodies(narrative_positive)
     
-    assert 'K' in mentions
-    assert 'E' in mentions
-    assert 'c' in mentions
+    # Should extract K and E (claimed as identified/detected)
+    assert 'K' in claims
+    assert 'E' in claims
+    
+    # Should NOT extract c or D (ruled out / negative context)
+    assert 'c' not in claims
+    assert 'D' not in claims
+    
+    # Test ruled-out mentions don't trigger
+    narrative_ruled_out = {
+        'text': 'anti-K was ruled out based on negative reactions. No evidence of anti-E.'
+    }
+    
+    claims_ruled_out = _extract_claimed_antibodies(narrative_ruled_out)
+    
+    # Should be empty - these are ruled out, not claimed
+    assert len(claims_ruled_out) == 0
 
 
 def test_verifier_blocked_output_has_engine_report():
