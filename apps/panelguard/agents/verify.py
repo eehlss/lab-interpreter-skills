@@ -49,9 +49,11 @@ def verify_llm_output(
     # Extract mentioned antibodies and their context from narrative
     claimed_antibodies = _extract_claimed_antibodies(llm_narrative)
     
-    # Check antibody claims against engine (only block false claims, not mentions)
+    # Check antibody claims against engine (case-sensitive comparison)
     for antibody in claimed_antibodies:
+        # Compare case-sensitively: 'Jka' must match engine's 'Jka', not 'JKA'
         if antibody not in engine_candidates:
+            # Check if it was ruled out (also case-sensitive)
             if antibody in engine_ruled_out:
                 violations.append(f'Antibody {antibody} was ruled out by engine but claimed as candidate/identified')
             else:
@@ -99,20 +101,22 @@ def _extract_claimed_antibodies(narrative: Dict[str, Any]) -> Set[str]:
     Extract antibodies that are CLAIMED as identified or candidates.
     Ignore mentions of ruled-out or negative antibodies.
     
-    Only flag antibodies mentioned in positive contexts like:
-    - 'identified anti-X'
-    - 'likely anti-X'
-    - 'anti-X is present'
-    - 'candidate anti-X'
+    Handles:
+    - Case-sensitive matching (Jka != JKA, keeps c/C, e/E distinct)
+    - Sentence-level negation detection ('not ruled out' handled correctly)
+    - Long exclusion lists ('exclude anti-C, anti-Fya, ...' all negated)
+    - Positive autocontrol context ('to exclude', 'underlying alloantibody' allowed)
+    
+    Only flag antibodies CLAIMED as identified, like:
+    - 'identified anti-Jka' or 'most likely anti-e'
     
     Do NOT flag mentions like:
-    - 'anti-X was ruled out'
-    - 'no evidence of anti-X'
-    - 'anti-X is negative'
+    - 'anti-E was ruled out' or 'exclude anti-Fya'
+    - 'to exclude underlying alloantibodies' (positive autocontrol context)
     """
     import re
     
-    # Common antibody names
+    # Common antibody names (preserving case: c != C, e != E, k != K, s != S, Jka != JKA)
     common_abs = [
         'D', 'C', 'c', 'E', 'e', 'K', 'k',
         'Fya', 'Fyb', 'Jka', 'Jkb',
@@ -121,53 +125,78 @@ def _extract_claimed_antibodies(narrative: Dict[str, Any]) -> Set[str]:
         'Kpa', 'Kpb', 'Jsa', 'Jsb'
     ]
     
-    text = json.dumps(narrative).lower()
+    text = json.dumps(narrative)
     found = set()
     
-    # Positive claim patterns (case-insensitive)
-    positive_patterns = [
-        'identified', 'likely', 'present', 'detected', 'confirmed',
-        'candidate', 'suspected', 'suggests', 'indicates', 'consistent with'
+    # Positive claim patterns (strong identification)
+    positive_claim_patterns = [
+        'identified', 'identification', 'most likely', 'likely', 'detected', 'confirmed',
+        'candidate', 'suspected', 'suggests', 'indicates', 'consistent with',
+        'appears to be', 'is present'
     ]
     
-    # Negative patterns to exclude
-    negative_patterns = [
-        'ruled out', 'excluded', 'negative', 'no evidence', 'not present',
-        'absent', 'unlikely', 'not detected', 'no anti-'
+    # Negation patterns (sentence-level)
+    negation_patterns = [
+        'ruled out', 'exclude', 'excluded', 'negative', 'no evidence',
+        'not present', 'absent', 'not detected', 'not identified'
     ]
     
-    # To avoid duplicate matches for K/k, C/c, E/e, track patterns already matched
-    matched_patterns = set()
+    # Split text into sentences for better context
+    # Simple sentence split on '.', '!', '?' followed by space or newline
+    sentences = re.split(r'[.!?]\s+', text)
     
     for ab in common_abs:
-        # Convert to lowercase for pattern matching
-        ab_lower = ab.lower()
+        # Build pattern: match "anti" case-insensitively, but antibody name case-sensitively
+        # This allows "Anti-c" or "anti-c" to match 'c', but "Anti-C" only matches 'C'
+        # Use (?i) for case-insensitive "anti" part, then turn it off for the antibody
+        ab_pattern = f'(?i)anti[-\\s](?-i:{re.escape(ab)})(?![a-z])'
         
-        # Skip if we already processed this pattern (e.g., both 'K' and 'k' map to 'k')
-        if ab_lower in matched_patterns:
-            continue
-        
-        # Pattern: anti- or anti followed by antibody name, not followed by another letter
-        ab_pattern = f'\\banti[-\\s]{ab_lower}\\b'
-        
-        for match in re.finditer(ab_pattern, text):
-            # Check immediate context (within 25 chars) for explicit negative phrases
-            # This is enough for "anti-X detected" or "anti-X ruled out" but avoids
-            # false negatives from unrelated mentions later in the text
+        # Search in each sentence for context
+        for sentence in sentences:
+            # Check if this EXACT antibody is mentioned (case-sensitive for antibody name)
+            match = re.search(ab_pattern, sentence)
+            if not match:
+                continue
+            
+            # Found exact antibody mention - check LOCAL context (around this match)
+            # Use a window around the match to check if THIS antibody is negated
             match_pos = match.start()
-            before_context = text[max(0, match_pos - 25):match_pos]
-            after_context = text[match_pos:min(len(text), match_pos + 25)]
-            context = before_context + after_context
+            # Wider window: 50 chars before and after
+            before_context = sentence[max(0, match_pos - 50):match_pos]
+            after_context = sentence[match_pos:min(len(sentence), match_pos + 50)]
+            local_context = (before_context + after_context).lower()
             
-            # ONLY skip if explicitly negative (ruled out, negative, excluded, etc.)
-            # Otherwise, assume it's a claim (safer for verification)
-            is_explicit_negative = any(neg in context for neg in negative_patterns)
+            # Check for negation in LOCAL context (near this specific antibody)
+            has_local_negation = any(neg in local_context for neg in negation_patterns)
             
-            if not is_explicit_negative:
-                # Add uppercase version (normalize to avoid K/k duplication)
-                found.add(ab.upper())
-                matched_patterns.add(ab_lower)
-                break  # Found this antibody pattern, move to next
+            # Check for positive claim in LOCAL context
+            has_local_positive = any(pos in local_context for pos in positive_claim_patterns)
+            
+            # Special case: 'not ruled out' means it's a positive claim
+            has_not_ruled_out = 'not ruled out' in local_context
+            
+            # Special case: allow 'to exclude' and 'underlying alloantibody' (positive autocontrol context)
+            # These are process mentions, not claims
+            is_process_mention = ('to exclude' in local_context or 
+                                 'underlying alloantibod' in local_context)
+            
+            # Decide if this is a claim
+            if has_not_ruled_out:
+                # 'not ruled out ... likely present' -> claim
+                if has_local_positive:
+                    found.add(ab)  # Keep original case
+                    break
+            elif has_local_negation:
+                # Negated locally, skip (but check if it's just process mention)
+                if not is_process_mention:
+                    continue
+                # If it's a process mention without a strong claim, skip
+                if not has_local_positive:
+                    continue
+            elif has_local_positive:
+                # Positive claim without negation
+                found.add(ab)  # Keep original case
+                break
     
     return found
 
