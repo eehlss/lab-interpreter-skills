@@ -3,3 +3,11 @@
 
 # Real printouts for validation must never be committed to a public repo
 validation-real/
+
+# Python caches and local envs (never commit)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*
