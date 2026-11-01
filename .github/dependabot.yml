@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/apps/panelguard"
+    schedule: { interval: "weekly", day: "sunday", time: "06:00", timezone: "Asia/Riyadh" }
+    open-pull-requests-limit: 5
+    groups:
+      python-minor-patch:
+        update-types: ["minor", "patch"]
+  - package-ecosystem: "docker"
+    directory: "/apps/panelguard"
+    schedule: { interval: "weekly", day: "sunday", time: "06:00", timezone: "Asia/Riyadh" }
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: { interval: "weekly", day: "sunday", time: "06:00", timezone: "Asia/Riyadh" }

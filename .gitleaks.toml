@@ -1,21 +1,69 @@
-# Gitleaks configuration for PanelGuard
-# Allowlist for false positives: synthetic test data and public API endpoints
+# gitleaks configuration: default secret rules + PHI / patient-identifier rules.
+# Research and decision-support only. Patterns match the SHAPE of identifiers; never commit real ones.
+# Test locally:  gitleaks git . --redact --config .gitleaks.toml
+title = "eehlss secrets + PHI rules"
+
+[extend]
+# Keep all built-in gitleaks secret rules (API keys, tokens, private keys...).
+useDefault = true
+
+[[rules]]
+id = "phi-mrn-labelled"
+description = "Labelled medical record / hospital / patient number"
+regex = '''(?i)\b(?:mrn|medical[ _-]?record(?:[ _-]?(?:no|number))?|hospital[ _-]?(?:no|number)|patient[ _-]?id)\b["']?\s*[:=#]\s*["']?([A-Z]{0,4}-?\d{5,12})\b'''
+secretGroup = 1
+keywords = ["mrn", "medical", "hospital", "patient"]
+tags = ["phi"]
+
+[[rules]]
+id = "phi-dob-labelled"
+description = "Labelled date of birth"
+regex = '''(?i)\b(?:dob|date[ _-]?of[ _-]?birth|birth[ _-]?date)\b["']?\s*[:=]\s*["']?((?:19|20)\d{2}[/-](?:0[1-9]|1[0-2])[/-](?:0[1-9]|[12]\d|3[01])|(?:0[1-9]|[12]\d|3[01])[/-](?:0[1-9]|1[0-2])[/-](?:19|20)\d{2})'''
+secretGroup = 1
+keywords = ["dob", "birth"]
+tags = ["phi"]
+
+[[rules]]
+id = "phi-saudi-national-id-iqama"
+description = "Saudi national ID / iqama number near its label"
+regex = '''(?i)\b(?:national[ _-]?id|iqama|nid|saudi[ _-]?id|id[ _-]?number)\b["']?\s*[:=#]?\s*["']?([12]\d{9})\b'''
+secretGroup = 1
+keywords = ["iqama", "national", "nid", "saudi", "id_number", "id number", "id-number"]
+tags = ["phi"]
+
+[[rules]]
+id = "phi-nigeria-nin"
+description = "Nigerian National Identification Number near its label"
+regex = '''(?i)\b(?:nin|national[ _-]?identification[ _-]?number)\b["']?\s*[:=#]?\s*["']?(\d{11})\b'''
+secretGroup = 1
+keywords = ["nin", "identification"]
+tags = ["phi"]
+
+[[rules]]
+id = "phi-phone-ng-ksa"
+description = "Nigerian (+234) or Saudi (+966) phone number with country code"
+regex = '''(?:\+|\b00)(?:234[\s-]?[789][01]\d|966[\s-]?5\d)[\s-]?\d{3}[\s-]?\d{4}\b'''
+keywords = ["+234", "+966", "00234", "00966"]
+tags = ["phi"]
+
+[[rules]]
+id = "phi-explicit-tag"
+description = "Content explicitly tagged as PHI / patient data"
+regex = '''\[(?:PHI|PATIENT)\]'''
+keywords = ["[phi]", "[patient]"]
+tags = ["phi"]
 
 [allowlist]
-description = "Allow synthetic test fixtures and public API URLs"
-
-# Synthetic patient/sample/unit IDs (SYN-PAT-xxx, SYN-SAMPLE-xxx, etc.)
+description = "Synthetic fixtures and placeholders"
+regexTarget = "line"
 regexes = [
-  '''SYN-[A-Z]+-\d+''',  # Synthetic IDs in test cases
-  '''IH-\d+''',  # Internal case IDs
+  '''SYN-[A-Z0-9-]+''',
+  '''IH-\d+''',                                  # internal synthetic case IDs
+  '''https://api\.tokenfactory\.nebius\.com''',  # public API base URL, not a secret
+  '''(?i)\b(?:example|placeholder|synthetic|dummy|fake|redacted|xxxx)\b''',
 ]
-
-# Public API base URLs (not secrets)
-[[allowlist.paths]]
-description = "Nebius Token Factory public API endpoint"
-regex = '''https://api\.tokenfactory\.nebius\.com'''
-
-# Test fixtures and synthetic case data
-[[allowlist.paths]]
-description = "Synthetic test case files"
-regex = '''cases/transfusion-medicine-interpreter/.*/case\.json'''
+paths = [
+  '''(?i)(^|/)\.gitleaks\.toml$''',
+  '''(?i)(^|/)tests?/fixtures/synthetic/''',
+  '''cases/transfusion-medicine-interpreter/.*/case\.json''',  # synthetic case files
+]
