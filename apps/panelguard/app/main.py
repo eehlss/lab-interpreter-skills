@@ -12,6 +12,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 import uvicorn
 
 # Import engines and agents
@@ -22,12 +23,26 @@ from engine import ABOEngine, PanelEngine, UnitsEngine, DATEngine
 from agents import NebiusClient, extract_case_data, generate_explanation, reason_complex_case, verify_llm_output, lookup_antibody_evidence
 from app.phi_guard import check_phi_violations
 
+# Security headers middleware
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        return response
+
+
 # Initialize FastAPI
 app = FastAPI(
     title="PanelGuard",
     description="Blood Bank Copilot - Research and decision-support only",
     version="1.0.0"
 )
+
+# Security headers
+app.add_middleware(SecurityHeadersMiddleware)
 
 # CORS
 app.add_middleware(
@@ -74,6 +89,33 @@ async def root():
     if ui_path.exists():
         return ui_path.read_text()
     return "<h1>PanelGuard</h1><p>UI not found</p>"
+
+
+@app.get("/privacy", response_class=HTMLResponse)
+async def privacy():
+    """Serve Privacy Policy page."""
+    ui_path = Path(__file__).parent.parent / "ui" / "privacy.html"
+    if ui_path.exists():
+        return ui_path.read_text()
+    return "<h1>Privacy Policy</h1><p>Page not found</p>"
+
+
+@app.get("/terms", response_class=HTMLResponse)
+async def terms():
+    """Serve Terms of Service page."""
+    ui_path = Path(__file__).parent.parent / "ui" / "terms.html"
+    if ui_path.exists():
+        return ui_path.read_text()
+    return "<h1>Terms of Service</h1><p>Page not found</p>"
+
+
+@app.get("/refund", response_class=HTMLResponse)
+async def refund():
+    """Serve Refund Policy page."""
+    ui_path = Path(__file__).parent.parent / "ui" / "refund.html"
+    if ui_path.exists():
+        return ui_path.read_text()
+    return "<h1>Refund Policy</h1><p>Page not found</p>"
 
 
 @app.get("/api/cases")

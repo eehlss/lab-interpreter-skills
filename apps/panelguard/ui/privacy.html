@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - PanelGuard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+        .ruo-banner {
+            background: #c62828;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .draft-banner {
+            background: #ffa726;
+            color: #000;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            border-bottom: 2px solid #f57c00;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 32px;
+        }
+        h1 { color: #0d1b4b; margin-bottom: 16px; font-size: 32px; }
+        h2 { color: #0d1b4b; margin: 24px 0 12px; font-size: 22px; border-left: 4px solid #76b900; padding-left: 12px; }
+        h3 { color: #14202b; margin: 16px 0 8px; font-size: 18px; }
+        p, li { color: #2c3e50; line-height: 1.6; margin-bottom: 12px; }
+        ul { margin-left: 24px; }
+        .placeholder {
+            background: #fff3cd;
+            border: 1px dashed #856404;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .footer {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #dfe5ec;
+            text-align: center;
+            color: #5a6b7b;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #2b59ff;
+            text-decoration: none;
+            margin: 0 12px;
+        }
+        .footer a:hover { text-decoration: underline; }
+        .home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2b59ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .home-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="ruo-banner">
+        ⚠️ RESEARCH AND DECISION-SUPPORT ONLY — Not a medical device. Not for clinical use.
+    </div>
+    <div class="draft-banner">
+        📝 DRAFT – PENDING LEGAL REVIEW
+    </div>
+    
+    <div class="container">
+        <a href="/" class="home-link">← Back to PanelGuard</a>
+        
+        <h1>Privacy Policy</h1>
+        <p><strong>Last Updated:</strong> [DATE]</p>
+        <p><strong>Effective Date:</strong> [DATE]</p>
+        
+        <h2>1. Introduction</h2>
+        <p>
+            PanelGuard is a blood bank antibody-identification copilot developed by 
+            Dr. Emeka Patrick Chukwuka, operating under ALAFIAAI/EEHLSS. 
+            PanelGuard is a research and decision-support tool only — it is not a medical device 
+            and is not intended for clinical diagnostic use.
+        </p>
+        <p>
+            We operate in Nigeria and Saudi Arabia and are committed to protecting your privacy 
+            in accordance with applicable data protection laws, including the Nigeria Data Protection 
+            Act 2023 (NDPA) and the Saudi Personal Data Protection Law (PDPL).
+        </p>
+        
+        <h2>2. Important Notice: Synthetic Data Only</h2>
+        <p>
+            <strong>PanelGuard demo environments use synthetic data only.</strong> 
+            Users must not enter real patient data, protected health information (PHI), 
+            or any personally identifiable information (PII) into the system. 
+            All acceptable inputs must use:
+        </p>
+        <ul>
+            <li>Synthetic patient identifiers (e.g., SYN-12345)</li>
+            <li>Year 2099 or other clearly synthetic dates</li>
+            <li>No real patient names, dates of birth, medical record numbers, or other identifiers</li>
+        </ul>
+        <p>
+            PanelGuard includes automated PHI detection to block real patient data, but users 
+            remain responsible for ensuring compliance.
+        </p>
+        
+        <h2>3. Data Collection and Use</h2>
+        
+        <h3>3.1 What We Collect</h3>
+        <p>PanelGuard currently collects minimal data:</p>
+        <ul>
+            <li><strong>Technical Logs:</strong> IP addresses, timestamps, request counts for rate limiting and error monitoring</li>
+            <li><strong>Synthetic Input Data:</strong> Case inputs submitted for analysis (synthetic only)</li>
+            <li><strong>No User Accounts:</strong> We do not currently collect names, email addresses, or create user accounts</li>
+            <li><strong>No Analytics:</strong> We do not currently use third-party analytics or tracking tools</li>
+        </ul>
+        
+        <h3>3.2 AI Processing via Third-Party LLM</h3>
+        <p>
+            PanelGuard uses AI models provided by <strong>Nebius Token Factory</strong> 
+            (NVIDIA Nemotron models) to generate explanations and reasoning for synthetic case inputs. 
+            Synthetic case data is transmitted to Nebius servers for processing. 
+            We do not share real patient data with any third party.
+        </p>
+        <p>
+            For Nebius data handling practices, see: 
+            <a href="https://nebius.com/privacy" target="_blank">https://nebius.com/privacy</a>
+        </p>
+        
+        <h3>3.3 Data Retention</h3>
+        <p>
+            Technical logs are retained for <span class="placeholder">[RETENTION PERIOD]</span> 
+            for operational and debugging purposes. Synthetic case inputs are not persistently stored 
+            beyond processing time.
+        </p>
+        
+        <h2>4. Your Rights</h2>
+        
+        <h3>4.1 Under Nigeria Data Protection Act 2023 (NDPA)</h3>
+        <p>If you are in Nigeria, you have the right to:</p>
+        <ul>
+            <li>Request access to your data</li>
+            <li>Request correction or deletion of your data</li>
+            <li>Object to processing of your data</li>
+            <li>Lodge a complaint with the Nigeria Data Protection Commission (NDPC)</li>
+        </ul>
+        
+        <h3>4.2 Under Saudi Personal Data Protection Law (PDPL)</h3>
+        <p>If you are in Saudi Arabia, you have the right to:</p>
+        <ul>
+            <li>Access your personal data</li>
+            <li>Request correction of inaccurate data</li>
+            <li>Request deletion of your data (under certain conditions)</li>
+            <li>Lodge a complaint with the Saudi Data & AI Authority (SDAIA)</li>
+        </ul>
+        
+        <h2>5. Security</h2>
+        <p>
+            We implement industry-standard security measures including HTTPS encryption, 
+            secure headers (HSTS, X-Frame-Options, X-Content-Type-Options), and automated PHI detection. 
+            However, no system is completely secure, and PanelGuard is a research tool not validated 
+            for clinical use.
+        </p>
+        
+        <h2>6. Changes to This Policy</h2>
+        <p>
+            We may update this Privacy Policy from time to time. Changes will be posted on this page 
+            with an updated "Last Updated" date.
+        </p>
+        
+        <h2>7. Contact Us</h2>
+        <p>
+            For privacy questions or to exercise your data rights, contact:
+        </p>
+        <p>
+            <strong>Dr. Emeka Patrick Chukwuka</strong><br>
+            ALAFIAAI / EEHLSS<br>
+            Email: <span class="placeholder">[CONTACT EMAIL]</span>
+        </p>
+        
+        <div class="footer">
+            <p>&copy; 2024 ALAFIAAI / EEHLSS. All rights reserved.</p>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/refund">Refund Policy</a>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>
