@@ -109,6 +109,20 @@
         .badge-mid { background: #f3e5f5; color: #6a1b9a; }
         .badge-offline { background: #fafafa; color: #616161; }
         pre { background: #0f1720; color: #e6edf3; padding: 12px; border-radius: 6px; overflow: auto; font-size: 12px; }
+        .footer {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #dfe5ec;
+            text-align: center;
+            color: #5a6b7b;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #2b59ff;
+            text-decoration: none;
+            margin: 0 12px;
+        }
+        .footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -139,6 +153,16 @@
                 <input type="text" id="reviewerInitials" placeholder="Enter your initials">
                 <button onclick="submitSignOff()" id="releaseBtn" disabled>Release Units</button>
             </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2024 ALAFIAAI / EEHLSS. All rights reserved.</p>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/refund">Refund Policy</a>
+            </nav>
         </div>
     </div>
     
